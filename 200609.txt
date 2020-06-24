@@ -1,0 +1,78 @@
+﻿1.지네릭에서 <?> 와일드 카드가 나오게된 배경은?
+컴파일 과정에서 오류를 잡아내기 위해.
+형변환의 번거로움을 피하기 위해.
+
+2.Box<Integer> 와 Box<String>이 상속이 안되는 이유는?
+가지고 있는 자료형이 서로 다르다.
+설사 각각의 자료형이 String과 Object라고 하더라도 Box클래스끼리는 상속되지 않는다.
+
+3. 아래의 Error 를 설명하시오.
+
+lass Car extends Toy {...}    // 자동차 장난감
+class Robot extends Toy {...}    // 로봇 장난감
+
+class Box<T> {
+   private T ob;
+   public void set(T o) { ob = o; }
+   public T get() { return ob; }
+}
+
+. . . 
+
+public static void outBox(Box<? extends Toy> box) {
+   box.get();   // 꺼내는 것! OK!
+   box.set(new Toy());   // 넣는 것! ERROR!
+}
+
+Box의 자료형이 Car가 오게 되면 Car myCar = box.set(new Toy()); 즉, "자식 = 부모"라는 식이 되어 다형성에 위배된다.
+
+4.문제 22-2번을 푸시오. 537페이지
+
+
+5. Scanner를 이용하여 한 라인을 읽고, 공백으로 분리된 어절이 몇 개 들어 있는지 "그만"을 입력할 때까지 반복하는 프로그램을 작성하라.
+
+======출력======
+I love Java
+어절 갯수는 3
+자바는 객체 지향 언어 이다.
+어절 갯수는 5
+그만
+종료 합니다.
+
+
+
+import java.util.Scanner;
+
+class Counting {
+
+	public static void execute() {
+
+		while(true) {
+			Scanner sc = new Scanner(System.in);
+			String input = sc.nextLine();
+			
+			if(input.equals("그만")) {
+				break;
+			}
+			
+			int count = 1;
+			for (int i = 0; i < input.length(); i++) {
+				char temp = input.charAt(i);
+				if(temp == ' ') {
+					count++;
+				}
+			}
+			
+			System.out.println("어절 갯수는 " + count);
+		}	
+		System.out.println("종료합니다.");
+	}
+}
+
+public class Abc {
+
+	public static void main(String[] args) {
+		Counting.execute();
+	}
+
+}

@@ -1,0 +1,104 @@
+﻿1.다형성이란?
+다형성 구현 방법 클래스의 상속이나 인터페이스를 구현하는 자식 클래스에서 메서드를 재정의(오버라이딩) 하고 자식 클래스를 부모 타입으로 업캐스팅한다. 
+그리고 부모 타입의 객체에서 자식 멤버를 참조하여 다형성을 구현한다
+
+2. 아래의 메모리를 그리시오.
+class MobilePhone {
+    protected String number;
+    
+    public MobilePhone(String num) {
+        number = num;
+    }    
+    public void answer() {
+        System.out.println("Hi~ from " + number);
+    }
+}
+
+class SmartPhone extends MobilePhone { 
+    private String androidVer;
+    
+    public SmartPhone(String num, String ver) {
+        super(num);
+        androidVer = ver;
+    }    
+    public void playApp() {
+        System.out.println("App is running in " + androidVer);
+    }
+}
+=======================================
+	MobilePhone phone = new SmartPhone("010-555-777", "Nougat");
+    	phone.answer();    	
+    	SmartPhone s = (SmartPhone)phone;    	
+    	s.playApp();
+
+2.is-a 관계와 has-a 관계에 대하여 설명하시오.
+is a 관계
+ - 부모클래스로 데이터형을 선언하고 자식클래스를 생성해서 할당 하는 것이다.
+
+ - 부모클래스의 변수와 메소드만 호출 할 수 있다.
+
+ - 원칙적으로 자식클래스의 변수와 메소드는 호출 할 수 없다.
+
+ - 자식클래스에 부모클래스에게서 Override한 메소드가 있다면 그 메소드는 호출이 가능하다.
+
+ - class 뿐만 아니라 interface 등도 부모로 받을 수 있다.
+
+has a 관계(포함관계)
+
+ ﻿- 다른 객체를 받아들여서 그 객체의 기능을 사용하는 것이다. (사람이 핸드폰을 사서 그 핸드폰의 기능을 사용하는 것)
+
+ - 받아들인 객체의 자원(메소드/변수)을 사용할 수 있다.
+
+ - 어떤 클래스 A가 또 다른 클래스인 B가 가진 기능을 사용하고 싶을때 B 클래스를 포함하면 B 클래스의 기능을 사용할 수 있다.  
+
+A has a B (A는 B를 가지고 있다.)
+
+
+3.메소드 오버로딩과 오버라이딩의 차이점은?
+오버로딩: 같은 이름의 함수를 여러 개 정의하고, 매개변수의 유형과 개수를 다르게 하여 다양한 유형의 호출에 응답하게 한다.
+
+오버라이딩: 상위 클래스에 정의된 메소드를 하위 클래스에서 다시 정의하는 것
+
+4 책 323 page 14-1번
+class Car {
+	int gasolineGauge;
+	
+	public Car(int gasolineGauge) {
+		this.gasolineGauge = gasolineGauge;
+	}
+}
+
+class HybridCar extends Car {
+	int electricGauge;
+	
+	public HybridCar(int gasolineGauge, int electricGauge) {
+		super(gasolineGauge);
+		this.electricGauge = electricGauge;
+	}
+	
+}
+
+class HybridWaterCar extends HybridCar {
+	int waterGauge;
+
+	HybridWaterCar (int gasolineGauge, int electricGauge, int waterGauge) {
+		super(gasolineGauge, electricGauge);
+		this.waterGauge = waterGauge;
+	}
+	
+	public void showCurrentGauge() {
+		
+		System.out.println("잔여 가솔린: " + gasolineGauge);
+		System.out.println("잔여 전기량: " + electricGauge);
+		System.out.println("잔여 워터량: " + waterGauge);
+	}
+}
+
+
+
+<main>
+		HybridWaterCar show = new HybridWaterCar(50, 40, 60);
+		show.showCurrentGauge();
+
+5.instanceof 연산자에 대하여 설명하시오.
+참조변수가 참조하는 인스턴스의 '클래스'나 참조하는 인스턴스가 '상속하는 클래스'를 묻는 연산자.
