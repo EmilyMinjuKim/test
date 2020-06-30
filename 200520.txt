@@ -1,19 +1,19 @@
-1. class ¶õ ¹«¾ù°ú ¹«¾ùÀ¸·Î ±¸¼ºµÇ¾î ÀÖ´Â°¡?
-µ¥ÀÌÅÍ, ¸Ş¼Òµå
+1. class ë€ ë¬´ì—‡ê³¼ ë¬´ì—‡ìœ¼ë¡œ êµ¬ì„±ë˜ì–´ ìˆëŠ”ê°€?
+ë°ì´í„°, ë©”ì†Œë“œ
 
-2.¾Æ·¡ÀÇ ¿ë¾î¸¦ ¼³¸íÇÏ½Ã¿À.
-ÀÎ½ºÅÏ½º º¯¼ö: Å¬·¡½º ³»¿¡ ¼±¾ğµÈ º¯¼ö
-·ÎÄÃº¯¼ö: ÇÔ¼ö ³»¿¡ ¼±¾ğµÈ º¯¼ö
+2.ì•„ë˜ì˜ ìš©ì–´ë¥¼ ì„¤ëª…í•˜ì‹œì˜¤.
+ì¸ìŠ¤í„´ìŠ¤ ë³€ìˆ˜: í´ë˜ìŠ¤ ë‚´ì— ì„ ì–¸ëœ ë³€ìˆ˜
+ë¡œì»¬ë³€ìˆ˜: í•¨ìˆ˜ ë‚´ì— ì„ ì–¸ëœ ë³€ìˆ˜
 
-3.Å¬·¡½º¿Í ÀÎ½ºÅÏ½ºÀÇ Â÷ÀÌ?
-Å¬·¡½º´Â Æ²À» ±¸¼ºÇÏ´Â °Í. & "ÀÚ¹Ù ÆÄÀÏÀ» ÄÄÆÄÀÏ ÇÑ °Í." 
-Å¬·¡½º·Î ±¸¼ºÇÑ Æ²·Î Âï¾î³½ °ÍÀÌ ÀÎ½ºÅÏ½º(Áï, °´Ã¼).
-"ÀÎ½ºÅÏ½º¶õ, ÄÄÆÄÀÏ ÇÑ .class¸¦ new Å°¿öµå¸¦ ÅëÇØ ¸Ş¸ğ¸®¿¡ ¿Ã¸° °Í."
+3.í´ë˜ìŠ¤ì™€ ì¸ìŠ¤í„´ìŠ¤ì˜ ì°¨ì´?
+í´ë˜ìŠ¤ëŠ” í‹€ì„ êµ¬ì„±í•˜ëŠ” ê²ƒ. & "ìë°” íŒŒì¼ì„ ì»´íŒŒì¼ í•œ ê²ƒ." 
+í´ë˜ìŠ¤ë¡œ êµ¬ì„±í•œ í‹€ë¡œ ì°ì–´ë‚¸ ê²ƒì´ ì¸ìŠ¤í„´ìŠ¤(ì¦‰, ê°ì²´).
+"ì¸ìŠ¤í„´ìŠ¤ë€, ì»´íŒŒì¼ í•œ .classë¥¼ new í‚¤ì›Œë“œë¥¼ í†µí•´ ë©”ëª¨ë¦¬ì— ì˜¬ë¦° ê²ƒ."
 
-4. BankAccount yoon = new BankAccount(); ÀÇ ¸Ş¸ğ¸®¸¦ ±×¸®½Ã¿À.
+4. BankAccount yoon = new BankAccount(); ì˜ ë©”ëª¨ë¦¬ë¥¼ ê·¸ë¦¬ì‹œì˜¤.
 
 
-5.¾Æ·¡ ÇÁ·Î±×·¥ÀÇ Ãâ·Â°á°ú¸¦ ¿¹ÃøÇÏ°í,¸Ş¸ğ¸®±×¸²À¸·Î ¼³¸íÇÏ½Ã¿À.
+5.ì•„ë˜ í”„ë¡œê·¸ë¨ì˜ ì¶œë ¥ê²°ê³¼ë¥¼ ì˜ˆì¸¡í•˜ê³ ,ë©”ëª¨ë¦¬ê·¸ë¦¼ìœ¼ë¡œ ì„¤ëª…í•˜ì‹œì˜¤.
 
 public class BankAccount {
 	int account = 0;
@@ -33,7 +33,7 @@ public class BankAccountOO {
 		
 		BankAccount yoon = new BankAccount();
 		
-		yoon.account = 10; //¿Á»ó ¿Ã¶ó°¨.
+		yoon.account = 10; //ì˜¥ìƒ ì˜¬ë¼ê°.
 		
 		System.out.println(yoon);
 		System.out.println(yoon.account);				
@@ -45,43 +45,44 @@ public class BankAccountOO {
 
 }
 
-1) ÂüÁ¶Çü BankAccount º¯¼öÇüÀ» °¡Áø yoonÀÌ¶ó´Â º¯¼ö¿¡ 4¹ÙÀÌÆ® ¸Ş¸ğ¸® ÇÒ´ç.
-2) new È£ÃâÀ» ÅëÇØ .class ÀÇ ÀÎ½ºÅÏ½º ÁÖ¼Ú°ªÀÌ yoon¿¡ ÀúÀåµÊ. 
-3) yoon.account¸¦ ÅëÇØ BankAccount ÀÎ½ºÅÏ½º È£Ãâ ÈÄ account (¿©±â¼­´Â int)ÇÔ¼ö¸¦ Ã£¾Æ¼­ 10 °ªÀ» ³Ö°í ¸Ş¼Òµå ½ÇÇà.
-4) 		System.out.println(yoon); -> yoon¿¡ ÀúÀåµÈ .class BankAccountÀÇ ÁÖ¼Ò
+1) ì°¸ì¡°í˜• BankAccount ë³€ìˆ˜í˜•ì„ ê°€ì§„ yoonì´ë¼ëŠ” ë³€ìˆ˜ì— 4ë°”ì´íŠ¸ ë©”ëª¨ë¦¬ í• ë‹¹.
+2) new í˜¸ì¶œì„ í†µí•´ .class ì˜ ì¸ìŠ¤í„´ìŠ¤ ì£¼ì†Ÿê°’ì´ yoonì— ì €ì¥ë¨. 
+3) yoon.accountë¥¼ í†µí•´ BankAccount ì¸ìŠ¤í„´ìŠ¤ í˜¸ì¶œ í›„ account (ì—¬ê¸°ì„œëŠ” int)í•¨ìˆ˜ë¥¼ ì°¾ì•„ì„œ 10 ê°’ì„ ë„£ê³  ë©”ì†Œë“œ ì‹¤í–‰.
+4) 		System.out.println(yoon); -> yoonì— ì €ì¥ëœ .class BankAccountì˜ ì£¼ì†Œ
 		System.out.println(yoon.account); -> 10
-5) check(yoon); check ÇÔ¼ö¿¡ yoon º¯¼ö¸¦ ³ÖÀ½. 
+5) check(yoon); check í•¨ìˆ˜ì— yoon ë³€ìˆ˜ë¥¼ ë„£ìŒ. 
 
-		System.out.println(bank); -> yoon°ú µ¿ÀÏÇÑ °á°ú.
-		System.out.println(bank.account); -> yoon°ú µ¿ÀÏÇÑ °á°ú.
+		System.out.println(bank); -> yoonê³¼ ë™ì¼í•œ ê²°ê³¼.
+		System.out.println(bank.account); -> yoonê³¼ ë™ì¼í•œ ê²°ê³¼.
 
-check, yoon µÑ ´Ù ÂüÁ¶Çü º¯¼ö¸¦ ¼±¾ğÇßÁö¸¸, ÀÎ½ºÅÏ½º´Â ÇÏ³ª¸¸ »ı¼ºÇÏ°í ÁÖ¼Òµµ °øÀ¯ÇÔ. ±×·¡¼­ °á°ú°¡ °°°Ô ³ª¿À´Â °Í.
+check, yoon ë‘˜ ë‹¤ ì°¸ì¡°í˜• ë³€ìˆ˜ë¥¼ ì„ ì–¸í–ˆì§€ë§Œ, ì¸ìŠ¤í„´ìŠ¤ëŠ” í•˜ë‚˜ë§Œ ìƒì„±í•˜ê³  ì£¼ì†Œë„ ê³µìœ í•¨. ê·¸ë˜ì„œ ê²°ê³¼ê°€ ê°™ê²Œ ë‚˜ì˜¤ëŠ” ê²ƒ.
 
 6)
-		bank.account = 90; -> BankAccountÀÇ int¿¡ 90ÀÌ ÀúÀåµÊ.
-		System.out.println(yoon.account);	 -> 90ÀÌ Ãâ·ÂµÊ.
+		bank.account = 90; -> BankAccountì˜ intì— 90ì´ ì €ì¥ë¨.
+		System.out.println(yoon.account);	 -> 90ì´ ì¶œë ¥ë¨.
 
 
 
-6.1. Å¬·¡½º ÀÌ¸§ : Triangle 
-     -ÀÎ½ºÅÏ½º º¯¼ö : width,height
-     - ¿øÀÇ ³ĞÀÌ¸¦ ±¸ÇÏ´Â ÇÔ¼ö : getArea
-     - º¯¼ö ¼ÂÆÃ ÇÔ¼ö°í,  Test Å¬·¡½º¿¡¼­
- Å×½ºÆ® ÇÏ½Ã¿À.
+6.1. í´ë˜ìŠ¤ ì´ë¦„ : Triangle 
+     -ì¸ìŠ¤í„´ìŠ¤ ë³€ìˆ˜ : width,height
+     - ì›ì˜ ë„“ì´ë¥¼ êµ¬í•˜ëŠ” í•¨ìˆ˜ : getArea
+     - ë³€ìˆ˜ ì…‹íŒ… í•¨ìˆ˜ê³ ,  Test í´ë˜ìŠ¤ì—ì„œ
+ í…ŒìŠ¤íŠ¸ í•˜ì‹œì˜¤.
 
 
 class Triangle {
 
-	int width, height;
-	void setWidth (int w) {
+	private int width, height;
+	public Triangle(){}
+	private void setWidth (int w) {
 		width = w;
 	}
 
-	void setHeight (int h) {
+	private void setHeight (int h) {
 		height = h;
 	}
 
-	double getArea () {
+	public double getArea () {
 		return width * height / 2.0;	
 	}
 
@@ -106,20 +107,17 @@ class Test {
 	}
 
 
-
-
-
 }
 
 
 
 
 
-7. Å¬·¡½º ÀÌ¸§ : Student 
-     -ÀÎ½ºÅÏ½º º¯¼ö : kor, eng, math
-     -setter ÇÔ¼ö ÀÛ¼º 
-     - grade ÇÔ¼ö average ÇÔ¼ö ÀÛ¼º
-     Test Å¬·¡½º¿¡¼­ Æò±Õ°ú ¼ö¿ì¹Ì¾ç°¡¸¦ Ãâ·ÂÇÏ´Â ÇÁ·Î±×·¥À» ÀÛ¼ºÇÏ½Ã¿À.
+7. í´ë˜ìŠ¤ ì´ë¦„ : Student 
+     -ì¸ìŠ¤í„´ìŠ¤ ë³€ìˆ˜ : kor, eng, math
+     -setter í•¨ìˆ˜ ì‘ì„± 
+     - grade í•¨ìˆ˜ average í•¨ìˆ˜ ì‘ì„±
+     Test í´ë˜ìŠ¤ì—ì„œ í‰ê· ê³¼ ìˆ˜ìš°ë¯¸ì–‘ê°€ë¥¼ ì¶œë ¥í•˜ëŠ” í”„ë¡œê·¸ë¨ì„ ì‘ì„±í•˜ì‹œì˜¤.
 
 
 class Student {
@@ -156,15 +154,15 @@ class Test {
 		myStudent.setEng(20);
 
 		if (myStudent.getAvg() >= 90) {
-			System.out.println(myStudent.getAvg() + " ¼ö");
+			System.out.println(myStudent.getAvg() + " ìˆ˜");
 		} else if (myStudent.getAvg() >= 80) {
-			System.out.println(myStudent.getAvg() + " ¿ì");
+			System.out.println(myStudent.getAvg() + " ìš°");
 		} else if (myStudent.getAvg() >= 70) {
-			System.out.println(myStudent.getAvg() + " ¹Ì");
+			System.out.println(myStudent.getAvg() + " ë¯¸");
 		} else if (myStudent.getAvg() >= 60) {
-			System.out.println(myStudent.getAvg() + " ¾ç");
+			System.out.println(myStudent.getAvg() + " ì–‘");
 		} else {
-			System.out.println(myStudent.getAvg() + " °¡");
+			System.out.println(myStudent.getAvg() + " ê°€");
 		}
 	}
 }
@@ -173,6 +171,6 @@ class Test {
 
 
 
-8.Àç±ÍÇÔ¼ö¶õ ¹«¾ùÀÎ°¡?
-Àç±Í¶õ ¼øÈ¯À» ¶æÇÑ´Ù.
-Àç±Í ÇÔ¼öÀÇ Á¤ÀÇ ¾È¿¡´Â ÇÔ¼öÀÇ ½ÇÇà¹®ÀÌ »ğÀÔµÇ¾î ÀÖ´Ù.
+8.ì¬ê·€í•¨ìˆ˜ë€ ë¬´ì—‡ì¸ê°€?
+ì¬ê·€ë€ ìˆœí™˜ì„ ëœ»í•œë‹¤.
+ì¬ê·€ í•¨ìˆ˜ì˜ ì •ì˜ ì•ˆì—ëŠ” í•¨ìˆ˜ì˜ ì‹¤í–‰ë¬¸ì´ ì‚½ì…ë˜ì–´ ìˆë‹¤.
