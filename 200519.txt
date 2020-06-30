@@ -281,7 +281,45 @@ static void getPartialSum (int num1, int num2) {
 	}
 	
 
+=============================================================================================
 
+import java.util.Arrays;
+
+public class Main {
+
+	public static void main(String[] args) {
+		
+		Solution sol = new Solution();
+		System.out.println(Arrays.toString(sol.solution(10, 12)));
+	}
+}
+
+class Solution {
+	  public int[] solution(int n, int m) {
+	      int[] answer = new int[2];
+	      int lcm = n*m;
+	      
+	      if(n<m) {
+	    	  int temp = n;
+	    	  n = m;
+	    	  m = temp;
+	      }
+	      answer[0] = gcd(n, m);
+	      answer[1] = lcm / answer[0];
+	   
+	      return answer;
+	      
+	}
+	 
+	  
+	  public int gcd(int a, int b) {
+		  if(a%b == 0) {
+			  return b;
+		  } else {
+			  return gcd(b, a%b);
+		  }
+	  }
+}
 
 
 
