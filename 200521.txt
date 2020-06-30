@@ -122,28 +122,25 @@ public class Rectangle00 {
 
 
 public class Rectangle {
-	int width;
-	int height;
-	int x;
-	int y;
+	private int width, height, x, y;
 	
-	Rectangle (int x, int y, int width, int height) {
+	public Rectangle (int x, int y, int width, int height) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 	}
 	
-	int square () {
+	public int square () {
 		return width * height;	
 	}
 	
-	void show () {
+	public void show () {
 		System.out.println("(" + x + "," + y + ")에서의 크기가 " + width + "*" + height + "인 사각형의 면적은 " 
 							+ width*height + "입니다.");
 	}
 	
-	boolean contains(Rectangle r) {
+	public boolean contains(Rectangle r) {
 		if(r.x > this.x && r.y > this.y) {
 			if (r.x + r.width < this.x + this.width && r.y + r.height < this.y + this.width) {
 				return true;
