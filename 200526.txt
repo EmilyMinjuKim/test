@@ -1,53 +1,94 @@
-  
-1.�޽�� �����ε� �̶�?
+1.메써드 오버로딩 이란?
+한 클래스 내에 동일한 이름의 메소드를 둘 이상 정의하는 것은 허용되지 않는다.
+하지만 매개변수의 선언이 다르면 동일한 이름의 메소드 정의를 허용하는데, 이를 '메소드 오버로딩'이라고 한다.
 
-2.�޽�� �����ε��� ��ǥ���� ����,�޽�� �����ε��� �޸��ؾ��� 2������?
+2.메써드 오버로딩의 대표적인 예와, 메써드 오버로딩시 달리해야 할 2가지는?
+매개변수의 수가 다를 때, 매개변수의 형이 다를 때.
+댠, 반환형이 다를 때는 메소드 오버로딩이 성립하지 않는다.
 
-3.this�� �����̸�, This�� �뵵 2������?
+3.this는 무엇이며, This의 용도 2가지는?
+1) 다른 생성자의 호출
+여기서 this는 '오버로딩 된 다른 생성자'를 의미. 
+초기화할 값을 전달받는 역할만 하고, 실제 초기화는 첫 번째로 정의된 생성자를 통해서 진행.
 
-4.���ڿ� ������ �ΰ��� �����?
+class Person{
+	private int regiNum;
+	private int passNum;
 
-5.�Ʒ��� ���̴�?
+	Person(int r, int p) {
+		regiNum = r;
+		passNum = p;
+	}
+
+	Person(int r) {
+		this(r, 0);		//r과 0을 진자로 받는 다른 생성자 호출.
+	}
+}
+
+2) 인스턴스 변수에 접근
+
+class SimpleBox {
+	private int data;
+	SimpleBox(int data){
+		this.data = data;
+	}
+}
+
+4.문자열 생성의 두가지 방법은?
+1) String 클래스의 인스턴스 생성
+2) 큰따옴표를 이용한 문자열 표현
+
+5.아래의 차이는?
  String str1 = new String("Simple String");
  String str2 = "Simple String";
+String 인스턴스는 Immutable 인스턴스로 후자의 경우 문자열 내용이 같으면 하나의 인스턴스를 생성 및 공유하는 
+방식으로 코드를 처리.
+후자는 new를 통해 각각의 방 새로 생성.
 
-6. �Ʒ��� false �� �����ϴ� ������ true�� �����ϰ� �ҷ���?
+6. 아래가 false 를 리턴하는 이유와 true로 리턴하게 할려면?
 if(str1 == str2) 
+인스턴스 주소가 다름.
+equals함수 사용해야 함.
 
-7.���� 11-1(263page) ���α׷��� �ۼ��Ͻÿ�.
+7.문제 11-1(263page) 프로그램을 작성하시오.
 
-8.String �� StringBuffer �� ���̴�?
+8.String 과 StringBuffer 의 차이는?
+StringBuilder는 String 클래스와 달리 메모리 공간 상에서 문자를 추가하거나 삭제하는 것이 가능하다.
+따라서 수정하면서 유지해야 할 문자열이 있다면 빌더 클래스에 담아서 관리하는 것이 효율적.
 
-9.�Ʒ��� String �Լ����� ����Ͽ� ���α׷��� �Ͻÿ�.
-1) ������ 3���� �ڸ���
+StringBuffer는 StringBuilder와 사실상 같은 클래스이지만
+빌더보다 쓰레드에 안전하게 설계되었고, 그 때문에 느리다.
+
+9.아래를 String 함수등을 사용하여 프로그래밍 하시오.
+1) 마지막 3글자 자르기
 String str = "ABCDEFG"; 
-String result = �ҽ��ڵ�      
+String result = 소스코딩      
 System.out.println(result)
- //�����EFG
+ //결과값EFG
 
 String str = "ABCDEFG";
 System.out.println(str.substring(4));
 
 
-2) Ư������ ������ ���ڿ� ����
+2) 특정문자 이후의 문자열 제거
 String str = "ABCD/DEFGH";
-String result = �ҽ��ڵ�
+String result = 소스코딩
 System.out.println(result); 
 
 
 
-//����� DEFGH
+//결과값 DEFGH
 
 
-12. �Ʒ��� ���α׷��� �Ͻÿ�.
+12. 아래를 프로그래밍 하시오.
 Rectangle r1 = new Rectangle(5,6);
 Rectangle r2 = new Rectangle(7,9);
 
 Rectangle r3 = Rectangle.compareRect(r1,r2);
 
-System.out.println(r3.getHeight() + " : " + r3.getWidth()  + "�Դϴ�.");
+System.out.println(r3.getHeight() + " : " + r3.getWidth()  + "입니다.");
 =============================
-��� : 9 : 7 �Դϴ�.
+출력 : 9 : 7 입니다.
 
 
 
@@ -60,7 +101,7 @@ public class Rectangle {
 		this.height = height;
 	}
 	
-	// getter�Լ�
+	// getter함수
 	public int getHeight () {
 		return height;
 	}
