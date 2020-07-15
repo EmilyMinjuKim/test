@@ -1,0 +1,93 @@
+Spring 한글처리 -> web.xml 마지막에 다음 코드 추가
+
+<filter> 
+    <filter-name>encodingFilter</filter-name> 
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class> 
+    <init-param> 
+       <param-name>encoding</param-name> 
+       <param-value>UTF-8</param-value> 
+    </init-param> 
+    <init-param> 
+       <param-name>forceEncoding</param-name> 
+       <param-value>true</param-value> 
+    </init-param> 
+ </filter> 
+ <filter-mapping> 
+    <filter-name>encodingFilter</filter-name> 
+    <url-pattern>/*</url-pattern> 
+ </filter-mapping> 
+
+
+
+
+Lombok 사용법
+pom.xml -> lombok dependency 추가
+
+
+
+
+
+
+DOM
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Javascript</title>
+		<script>
+			//DOM이란? Document Object Model의 약자로 웹문서(태그)와 관련된 객체
+			//Javascript를 이용해서 html태그 객체를 생성, 추가, 삭제, 이동 등의 작업을 할 수 있다.
+			window.onload = function(){
+				var elementNode = document.createElement("p");		//<p></p>
+				var textNode = document.createTextNode("javascript & node.js");
+				
+				//아래는 onload안에 있어야 함. 
+				//onload실행 전에 <html><head><body>(껍데기)를 먼저 읽어야 하기 때문.
+				elementNode.appendChild(textNode);			//<p>javascript & node.js</p>
+				document.body.appendChild(elementNode);		//위 코드를 body안에 넣는 행위.
+			}
+			
+		</script>
+	</head>
+	<body>
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1.mvc_board 에서 list 를 받아 오기위한 sql 문을 작성하시오.
+2.스프링 으로 게시판을 짜기위한 설계도를 그리시오.
+3.스프링에서의 한글 처리 방법은?
+4.Dom 이란 무엇인가?
+5.screen 객체에 대하여 설명하시오.
+6.location 객체의 용도에 대하여 설명하시오.
+7.windows.onload 에 대하여 설명하시오.
+8. 아래의 소스코드는 버튼을 누를때 마다, hello world를 옆으로 찍는다.
+누를때 마다 개행을 넣이 찍도록 하시오. 
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>Click the button to create a Text Node.</p>
+
+<button onclick="myFunction()">Try it</button>
+
+<script>
+function myFunction() {
+  var t = document.createTextNode("Hello World");
+  document.body.appendChild(t);
+}
+</script>
+
+</body>
+</html>

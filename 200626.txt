@@ -1,0 +1,97 @@
+1.emp 의 모든 데이터를 나타내시오.단 Datasource를 활용할것. 또한 데이터를 datatable 로 표현할것
+-jstl 사용
+<%@page import="edu.bit.ex.dao.MemberDAO2"%>
+<%@page import="edu.bit.ex.dto.MemberDTO"%>
+<%@page import="java.util.ArrayList"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
+	<c:set var=“memberDAO” value=“<%= new MemberDAO2() %>” />
+	<c:set var=“dtos” value=“<%= new ArrayList<MemberDTO>() %>” />
+	<c:set var="dtos" value="${dao.memberSelect()}" />
+			
+	<table border="1">
+		<tr bgcolor="yellow">
+			<th>이름</th><th>아이디</th><th>비밀번호</th><th>연락처</th><th>성별</th>
+		</tr>
+			<c:forEach var="dto" items="${list}">
+			<tr>
+				<td><c:out value="${dto.name }"/></td>
+				<td><c:out value="${dto.id }"/></td>
+				<td><c:out value="${dto.pw }"/></td>
+				<td><c:out value="${dto.phone1 }"/> - <c:out value="${dto.phone2 }"/> - <c:out value="${dto.phone3 }"/></td>
+				<td><c:out value="${dto.gender }"/></td>
+			</tr>
+			</c:forEach>
+		
+	</table>
+	
+	
+</body>
+</html>
+
+2.MVC 란?
+MVC란 Model, View, Controller를 뜻하는 용어로 개발 형태의 일종.
+Model은 데이터베이스와의 관계를 담당. 
+클라이언트의 요청에서 필요한 자료를 데이터베이스로부터 추출하거나, 수정하여 Controller로 전달.
+View는 사용자한테 보여지는 UI 화면. 주로 .jsp파일로 작성하며, Controller에서 어떤 View 컴폰넌트를 보여줄지 결정.
+Controller는 클라이언트의 요청을 받고, 적절한 Model에 지시를 내리며, Model에서 전달된 데이터를 적절한  View에 전달.
+이렇게 작업을 분할하면, 추후 유지보수에 좋음. 
+
+3.MVC 모델 1과 모델 2에 대하여 설명하시오.
+[MVC 1]
+MVC에서 View와 Controller가 같이 있는 형태.
+jsp: view, controller
+dao: model
+
+[MVC 2]
+MVC에서 Model, View 그리고 Controller가 모두 모듈화 되어 있는 형태.
+jsp: view
+servlet: controller
+command, dao: model
+
+4.게시판 db를 구성하시오.
+create table mvc_board(
+ bId NUMBER(4) PRIMARY KEY,
+ bName VARCHAR2(20),
+ bTitle VARCHAR2(100),
+ bContent VARCHAR2(300),
+ bDate DATE DEFAULT SYSDATE,
+ bHit NUMBER(4) DEFAULT 0,
+ bGroup NUMBER(4),
+ bStep NUMBER(4),
+ bIndent NUMBER(4)
+);
+
+create sequence mvc_board_seq;
+
+desc mvc_board;
+
+insert into mvc_board (bId, bName, bTitle, bContent, bHit, bGroup, bStep, bIndent) 
+values (mvc_board_seq.nextval, 'abcd', 'is title', 'is content', 0, mvc_board_seq.currval, 0, 0);
+
+select * from mvc_board;
+
+========================================================================
+
+--emp테이블에서 job별로 급여의 평균을 출력하고자 한다. 
+--'SALESMAN '이라는 job보다 급여의 평균이 큰 job만 출력하시오 
+SELECT job, trunc(avg(sal)) FROM emp GROUP BY job 
+HAVING trunc(avg(sal)) > (SELECT trunc(avg(sal)) FROM emp WHERE job = 'SALESMAN');
+
+--부서중에 sal합계가 가장 큰 부서의 부서명과 sal합계를 구하시오. 
+SELECT dname, sum(sal) FROM emp e, dept d WHERE e.deptno = d.deptno
+GROUP BY dname
+HAVING sum(sal) >= ALL(SELECT sum(sal) FROM emp GROUP BY deptno);
+
+--emp테이블에서 부서코드가 10또는 20또는 30또는 40인 데이터의 급여의 grade를 출력하시오(사원ID,사원명,sal,grade) 
+SELECT * FROM emp;
+SELECT deptno, empno, ename, sal, grade FROM emp e, salgrade s 
+WHERE (sal BETWEEN losal AND hisal);

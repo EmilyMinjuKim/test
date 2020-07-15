@@ -1,0 +1,222 @@
+[DI(Dependency Injection)]
+
+Class Computer{
+	객체 생성① new
+	private CPU cpu = new CPU();
+
+computer클래스는 cpu데이터 멤버를 가지고 있어야 한다.
+computer는 cpu에 의존(depend)한다.
+
+	객체 생성② 생성자 함수, set 함수 이용 by 다른 클래스(injection; 주입)
+	CPU (){}
+	set CPU(CPU cpu){
+		this.cpu = cpu;
+
+computer클래스에 cpu객체를 "다른 클래스에서" 넣어준다.
+
+	}
+
+}
+
+injection은 다형성 적용이 용이함.
+class Intel extends computer
+class Amg extends computer
+.
+.
+.
+
+생성: 완제품 / 주입: 조립
+
+[IOC(Inversion of Control)]
+생성: computer -> cpu -> chip (정주행)
+개발자가 객체 간의 의존관계를 소스코드로 표현해야 함.
+
+주입: chip -> cpu -> computer (역주행)
+Computer computer = new Computer(new Cpu(new Chip)); 
+객체 간 관계를 소스코드로 표현하지 않아도 됨. 컨테이너로 처리.
+소스에서 객체 생성과 의존관계에 대한 코드가 사라져 낮은 결합도의 컴포넌트 구현 가능.
+
+**결합도: 하나의 클래스가 다른 클래스와 얼마나 많이 연결되어 있는지를 나타내는 표현.
+결합도가 높으면 유지보수가 어려움.
+
+  
+1. 아래의 개념을 설명하시오.
+-DI (3장)
+
+String configLoc = "classpath:applicationCTX.xml";
+AbstractApplicationContext ctx = new GenericXmlApplicationContext(configLoc);	//Polymorphism
+MyCalculator myCalculator = ctx.getBean("myCalculator", MyCalculator.class);
+
+1)MainClass에서 Spring 설정 config 파일이 있는 xml의 주소를 지정함.
+2) 스프링 컨테이너 생성.
+  AbstractApplicationContext: context 클래스
+	     | (상속관계)
+GenericXmlApplicationContext: xml을 passing해주는 클래스. 이곳에 xml주소를 집어넣음.
+3)context에서 bean을 추출. (스프링 컨테이너에서 컴포넌트 가져옴)
+============================================================
+여기까지가 객체 생성
+
+**xml 파일을 이용하면 정보 전달시 사용하는 언어에 관계없이 프로그램을 구동시킬 수 있음.
+**DI 사용 장점: Java파일의 수정 없이 스프링 설정 파일(config file)만 수정하여 부품들을 생성/조립 가능.
+
+4) JAVA를 이용한 DI 설정 방법
+@Configuration	'이 클래스는 스프링 설정에 사용되는 클래스입니다.'라고 명시해주는 어노테이션
+@Bean 		빈 객체 생성
+
+5) XML에 JAVA 삽입하여 DI 설정
+xml파일
+<context:annotation-config />
+<bean class="com.javalec.ex.ApplicationConfig" />	빈 생성
+
+6) JAVA에 XML 삽입하여 DI 설정
+java파일
+@Configuration
+@ImportResource("classpath:applicationCTX.xml")
+
+-IoC
+-IoC 컨테이너: IOC 방식으로 생성한 객체를 관리. 즉, 객체를 부품화시켜서 관리.
+결국 스프링이란? 부품을 생성하고 조립하는 라이브러리 집합체.
+
+2. 스프링의 장점 및 단점에 대하여 이야기 하여 보세요.
+장점
+정형화 : 일정수준이상의 품질을 기대
+유지보수가 쉽다.
+개발자에게 기본적인 패턴(DI, AOP, 서비스 추상화)등을 강제 시킴
+유연성 및 
+각모듈을 조립(설정을 통한)하면 기능을 쉽게 구현
+모듈 추가 제거및 관리가 수월하다.
+
+단점
+습득시간이 오래걸림.
+스프링 설정하는 것에만 익숙해지다보니 코딩 실력이 떨어지게됨.
+무겁다.
+
+
+
+3.  원, 삼각형, 사각형의 객체를 만든후, 반지름 10, 가로 세로 10 인 각각의 넓이를 구하는 프로그램을 작성하시오.
+조건) Ioc 컨테이너를 통하여 객체를 생성할것.
+
+xml
+  <bean id="cal" class="com.java.ex.Cal"/>
+  
+  <bean id="myCal" class="com.java.ex.MyCal">
+  	
+    <property name="cal">
+      <ref bean="cal"/>
+    </property>
+    <property name="width" value="10"/>
+    <property name="height" value="10"/>
+   <property name="radius" value="10"/>
+  </bean>
+
+
+MyCal.java
+package com.java.ex;
+
+public class MyCal {
+  Cal cal;
+  private int width;
+  private int height;
+  private double radius;
+
+  public MyCal() {
+
+  }
+
+  public void tri() {
+    cal.tri(width, height);
+  }
+
+  public void rec() {
+	  cal.rec(width, height);
+  }
+
+  public void cir() {
+    cal.cir(radius);
+  }
+
+	public Cal getCal() {
+		return cal;
+	}
+	
+	public void setCal(Cal cal) {
+		this.cal = cal;
+	}
+	
+	public int getWidth() {
+		return width;
+	}
+	
+	public void setWidth(int width) {
+		this.width = width;
+	}
+	
+	public int getHeight() {
+		return height;
+	}
+	
+	public void setHeight(int height) {
+		this.height = height;
+	}
+	
+	public double getRadius() {
+		return radius;
+	}
+	
+	public void setRadius(double radius) {
+		this.radius = radius;
+	}
+  
+  
+
+}
+
+===============================================================
+xml에서 property 대신에 constructor-arg 태그를 사용하면 생성자 초기화값을 설정할 수 있음.
+java파일에서  ↘setter 이용	↘생성자 이용
+===============================================================
+
+Cal.java
+package com.java.ex;
+
+public class Cal {
+  public void tri(int width, int height) {
+    System.out.println("triangle");
+    int result = width * height / 2;
+    System.out.println(result);
+  }
+
+  public void rec(int width, int height) {
+	    System.out.println("rectangle");
+	    int result = width * height;
+	    System.out.println(result);
+	  }
+  
+  public void cir(double radius) {
+	    System.out.println("triangle");
+	    double result = radius * radius * 3.14;
+	    System.out.println(result);
+	  }
+}
+
+
+4) 아래의 결과를 예측하고, 아래의 부분을 설명하시오.		
+var varArrSort = new Array("E", "B", "A", "C", "D");
+console.log("varArrSortBefore : " + varArrSort);	E, B, A, C, D
+console.log("varArrSort : " + varArrSort.sort());	A, B, C, D, E
+console.log("varArrSortAfter : " + varArrSort);	A, B, C, D, E(immutable)
+varArrSort = varArrSort.sort();  // 설명하시오.
+console.log("varArrSortAfter : " + varArrSort); 	A, B, C, D, E
+
+<배열 메소드>
+indexOf(): 가장 처음 나타나는 자료형의 index값 반환
+-- 해당 데이터가 배열에 없으면 -1 반환 --
+lastIndexOf(): 가장 마지막에 나타나는 자료형의 index값 반환
+
+concat():  배열을 붙일 때 사용
+join(): 배열 데이터를 문자열로 반환
+sort(): 배열 정렬
+reverse(): 배열 순서 반전
+push(): 데이터 추가
+shift(), pop(): 첫번째, 마지막 데이터 삭제
+unshift(): 데이터 추가

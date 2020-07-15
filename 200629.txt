@@ -1,0 +1,313 @@
+1.게시판을 모델2로 짜기 위한 설계도를 그리시오.
+
+2.RequestDispatcher의 역할은?
+- 클라이언트로부터 최초에 들어온 요청을 JSP/Servlet 내에서 원하는 자원으로 요청을 넘기는(보내는) 역할을 수행하거나, 
+특정 자원에 처리를 요청하고 처리 결과를 얻어오는 기능을 수행하는 클래스.
+
+- 즉, /a.jsp 로 들어온 요청을 /a.jsp 내에서 RequestDispatcher를 사용하여 b.jsp로 요청을 보낼 수 있다. 
+또는 a.jsp에서 b.jsp로 처리를 요청하고 b.jsp에서 처리한 결과 내용을 a.jsp의 결과에 포함시킬 수 있다.
+
+[RequestDispatcher가 있는 이유. HttpServletResponse#sendRedirect() 와의 차이점]
+HttpServletResponse를 사용하면 sendRedirect() 메서드를 이용하여 지정한 경로로 제어를 이동시킬 수 있다. 
+그러나 sendRedirect()는 HTTP 리다이렉션을 이용하기 때문에 하나의 요청 범위 안에서 처리를 하는것이 아니라 
+브라우저에게 Response 후 브라우저측에서 지정받은 요청 경로로 다시 재요청을 하는 방식이기에 
+두 번의 HTTP 트랜잭션이 발생한다. 
+또한, 서버측에서는 최초에 받은 요청중에 처리한 내용을 리다이렉트 된 요청 안에서 공유할 수 없는 문제가 있다.
+
+그대신 HttpServletResponse를 통해 리다이렉트 하는 방식은 현재 어플리케이션 이외에 
+다른 자원의 경로를 요청할 수 있는 반면 
+RequestDispatcher는 현재 처리중인 서블릿이 속해 있는 웹 어플리케이션 범위 내에서만 요청을 제어할 수 있다.
+
+https://dololak.tistory.com/502
+
+3.게시판(list.jsp)을 모델2로 짜시오.(feat 외우시오)
+
+BDTO.java 생성
+
+BDAO.java
+
+package edu.bit.ex.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
+import edu.bit.ex.dto.BDTO;
+
+public class BDAO {
+	private DataSource dataSource;
+	
+	public BDAO() {
+		
+		try {
+			Context context = new InitialContext();
+			dataSource = (DataSource)context.lookup("java:comp/env/jdbc/oracle");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public ArrayList<BDTO> list(){
+		ArrayList<BDTO> dtos = new ArrayList<>();
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String query = null;
+		
+		try {
+			con = dataSource.getConnection();
+			query = "select * from mvc_board order by bGroup desc, bStep asc";
+			pstmt = con.prepareStatement(query);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				int bId = rs.getInt("bId");
+				String bName = rs.getString("bName");
+				String bTitle = rs.getString("bTitle");
+				String bContent = rs.getString("bContent");
+				Timestamp bDate = rs.getTimestamp("bDate");
+				int bHit = rs.getInt("bHit");
+				int bGroup = rs.getInt("bGroup");
+				int bStep = rs.getInt("bStep");
+				int bIndent = rs.getInt("bIndent");
+				
+				BDTO dto = new BDTO(bId, bName, bTitle, bContent, bDate, bHit, bGroup, bStep, bIndent);
+				dtos.add(dto);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				if(con != null) con.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		 
+		return dtos;
+	}
+	
+}
+
+
+
+
+
+
+BCommand interface 생성
+package edu.bit.ex.command;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public interface BCommand {
+	void execute(HttpServletRequest request, HttpServletResponse response);
+}
+
+
+
+
+
+
+BListCommand.java
+package edu.bit.ex.command;
+
+import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import edu.bit.ex.dao.BDAO;
+import edu.bit.ex.dto.BDTO;
+
+public class BListCommand implements BCommand{
+	
+	@Override
+	public void execute(HttpServletRequest request, HttpServletResponse response) {
+		
+		BDAO dao = new BDAO();
+		ArrayList<BDTO> dtos = dao.list();
+		request.setAttribute("list", dtos);
+	}
+	
+}
+
+
+
+
+
+
+BoardFrontController.java 프론트 컨트롤러 서블릿
+package edu.bit.ex.controller;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import edu.bit.ex.command.BCommand;
+import edu.bit.ex.command.BListCommand;
+
+/**
+ * Servlet implementation class BoardFrontController
+ */
+		//("/board/list") : restful 방식(URL 패턴) -> 요즘은 이 패턴이 대세
+@WebServlet("*.do")	//확장자패턴 (user가 .do로 치고 들어오는 것은 다 받아내겠다) ->전자정부프레임에서 사용
+public class BoardFrontController extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public BoardFrontController() {
+        super();
+        
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("doGet");
+		actionDo(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("doPost");
+		actionDo(request, response);
+	}
+
+	private void actionDo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("actionDo");
+		request.setCharacterEncoding("EUC-KR");		//request객체를 받으려면 try, catch로 감싸줘야 함 
+													//예외처리: runtimexception 제외 전부 에러처리 해줘야 함
+		String viewPage = null;
+		BCommand command = null;
+		
+		//	http:// ... /jsp_mvcboard/list.do
+		String uri = request.getRequestURI();
+		String conPath = request.getContextPath();
+		String com = uri.substring(conPath.length());
+		
+		System.out.println("uri: " + uri);
+		System.out.println("conPath: " + conPath);
+		System.out.println("com: " + com);
+		
+		if(com.equals("/list.do")) {			
+			command = new BListCommand();	//polymorphism: BCommand(부모interface)가 BListCommand(자식) 불러옴 by 컨트롤러
+			command.execute(request, response); 	//Command가 request를 execute하면 BListCommand의 execute가 실행되면서
+													//그 안의 list가 전부 호출됨.
+													//여기까지가 '클라이언트-FrontController-Command-DAO-DTO-DB'과정에서 불러온
+													//request객체를 담아내는 과정
+			viewPage = "list.jsp";					//FrontController가 ui화면에게 응답
+		}
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
+		dispatcher.forward(request, response);
+		//dispatcher객체가 request, response정보를 list.jsp에 즉, list_jsp.class에 넘겨준다.
+		//mvp형식을 지키기 위해서는 jsp페이지에서 객체 생성을 생략해야 함. 그래서 frontcontroller에서 request로 얻은 정보를 미리 객체생성 후 forward
+		//시키면 jsp에서는 객체 생성 없이 request정보를 바로 받아올 수 있음.
+	}									
+
+}
+
+
+
+
+
+
+
+
+
+list.jsp
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
+	<table width="500" cellpadding="0" cellspacing="0" border="1">
+		<tr>
+			<td>번호</td>
+			<td>이름</td>
+			<td>제목</td>
+			<td>날짜</td>
+			<td>히트</td>
+		</tr>
+		<c:forEach var="dto" items="${list }">
+		<tr>
+			<td>${dto.bId}</td>
+			<td>${dto.bName}</td>
+			<td>
+				<c:forEach begin="1" end="${dto.bIndent}">-</c:forEach>
+				<a href="content_view.do?bId=${dto.bId}">${dto.bTitle}</a>
+			</td>
+			<td>${dto.bDate}</td>
+			<td>${dto.bHit}</td>
+		</tr>
+		</c:forEach>
+		
+		<tr>
+			<td colspan="5"> <a href="write_view.do">글작성</a>
+		</tr>
+		
+	</table>
+</body>
+</html>
+
+
+
+
+
+4.게시판 list.jsp 의 SQL 구문은?(feat 이것도 외우시오)
+
+create table mvc_board(
+ bId NUMBER(4) PRIMARY KEY,
+ bName VARCHAR2(20),
+ bTitle VARCHAR2(100),
+ bContent VARCHAR2(300),
+ bDate DATE DEFAULT SYSDATE,
+ bHit NUMBER(4) DEFAULT 0,
+ bGroup NUMBER(4),
+ bStep NUMBER(4),
+ bIndent NUMBER(4)
+);
+
+create sequence mvc_board_seq;
+
+desc mvc_board;
+
+insert into mvc_board (bId, bName, bTitle, bContent, bHit, bGroup, bStep, bIndent) 
+values (mvc_board_seq.nextval, 'abcd', 'is title', 'is content', 0, mvc_board_seq.currval, 0, 0);
+
+select * from mvc_board;
+
+=================================
+5.부서중에 sal합계가 가장 큰 부서의 부서명과 sal합계를 구하시오. 
+SELECT dname, sum(sal) FROM emp e, dept d WHERE e.deptno = d.deptno GROUP BY dname 
+HAVING sum(sal) >= ALL(SELECT sum(sal) FROM emp GROUP BY deptno);
+
+6.emp테이블에서 부서코드가 10또는 20또는 30또는 40인 데이터의 급여의 grade를 출력하시오(사원ID,사원명,sal,grade) 
+SELECT deptno, grade FROM emp, salgrade WHERE sal BETWEEN losal AND hisal ORDER BY deptno ASC;

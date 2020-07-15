@@ -1,0 +1,27 @@
+1.게시판 댓글 달기 위한 SQL 구문(3개)들을 설명하시오.(반드시 이해 할것)
+-list를 표현하기 위한 쿼리
+"select * from mvc_board where bId = ?"
+(reply_view) bId값에 해당하는 원본글을 불러옴
+
+-shapeReply 함수의 쿼리
+"update mvc_board set bStep = bStep + 1 where bGroup = ? and bStep > ?"
+답글을 저장할 때의 양식.
+set bStep = bStep + 1 : 답글이 달릴 때마다 원본글로부터 한 칸씩 내려감
+where bGroup = ? and bStep > ? : 동일 그룹 내에서 지금 삽입하려는 글보다 step이 큰 녀석들만 step을 올려줌.
+그래야 새로 생긴 글 밑으로 기존 글들이 밀리니까.
+
+-댓글 insert 
+replyShape(bGroup, bStep); -> step 조정
+
+-댓글 insert 쿼리
+"insert into mvc_board (bId, bName, bTitle, bContent, bGroup, bStep, bIndent) "
+					+ "values (mvc_board_seq.nextval, ?, ?, ?, ?, ?, ?)"
+새로 입력한 답글 값을 저장
+
+===========================================
+group: 원본글의 그룹 넘버. 원본글과 답변글을 모두 묶은 id값.
+step: 원본글로부터 몇 번째 아래에 답변글이 있는지를 표시.
+indent: 얼마만큼 안쪽으로 글이 들어가서 시작할 것인지를 표시.
+===========================================
+
+2.emp를 템플릿 tables.html을 사용하여 list를 나타내시오.

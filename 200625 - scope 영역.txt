@@ -1,0 +1,133 @@
+1.내장객체의 영역 page, request, session, application 에 대하여 설명하시오.
+page: 하나의 JSP 페이지 내에서만 객체를 공유하는 영역(jsp only)
+request: 요청을 받아서 응답하기까지 객체가 유효한 영역
+session: 하나의 브라우저 당 1개의 session 객체가 생성.
+즉, 같은 브라우저 내에서 요청되는 페이지들은 같은 객체를 공유하게 되는데, 이를 세션 영역이라고 함.
+application: 같은 애플리케이션 내에서 요청되는 페이지들은 같은 객체를 공유
+
+2.emp 의 모든 데이터를 나타내시오.단 Datasource를 활용할것.
+package edu.bit.ex.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
+import edu.bit.ex.dto.MemberDTO;
+
+public class MemberDAO2 {
+
+	private DataSource dataSource;		//커넥션풀을 가져오기 위한 객체
+	
+	public MemberDAO2() {
+		try {
+			Context context = new InitialContext();
+			dataSource = (DataSource) context.lookup("java:comp/env/jdbc/oracle");	//커넥션 풀의 드라이버 사용
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public ArrayList<MemberDTO> memberSelect(){
+		ArrayList<MemberDTO> dtos = new ArrayList<MemberDTO>();
+		
+		Connection con = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT * from member";
+		
+		try {
+			con = dataSource.getConnection();		//커넥션풀 객체를 받아와서 커넥션 객체 실행시킴. 따라서 커넥션 객체를 따로 만들 필요x.
+			stmt = con.createStatement();		//커넥션풀에 미리 만들어놓은 커넥션 객체 가져다쓰는 것.
+			rs = stmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				String name = rs.getString("name");		
+				String id = rs.getString("id");
+				String pw = rs.getString("pw");
+				String phone1 = rs.getString("phone1");
+				String phone2 = rs.getString("phone2");
+				String phone3 = rs.getString("phone3");
+				String gender = rs.getString("gender");
+				
+				MemberDTO dto = new MemberDTO(name, id, pw, phone1, phone2, phone3, gender);	//DB 정보들을 객체화 시키기
+				dtos.add(dto);		
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null) rs.close();		
+				if(stmt != null) stmt.close();
+				if(con != null) con.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		
+		return dtos;
+	}
+	
+}
+
+
+============context.xml============== 
+<Resource 
+    	auth="Container" 					컨테이너 안에서 작업을 하겠다
+    	driverClassName="oracle.jdbc.OracleDriver" 		OracleDriver 로드
+    	url="jdbc:oracle:thin:@127.0.0.1:1521:xe"		DB 위치
+    	username="scott" 
+    	password="tiger" 
+    	name="jdbc/oracle" 
+    	type="javax.sql.DataSource" 
+    	maxActive="50"					커넥션 최초 50개 생성
+    	maxWait="1000" 					50개 다 만들었을 때 1초 기다림
+     />
+
+============위 태그 추가================
+
+3.EL 에 대하여 설명하시오.
+표현식 또는 액션 태그를 대신해서 값을 표현하는 언어.
+
+4.JSTL 에 대하여 설명하시오.
+JSP의 경우 HTML 태그와 같이 사용되어 전체적인 코드의 가독성이 떨어지는데,
+이러한 단점을 보완하고자 만들어진 태그 라이브러리가 JSTL.
+
+5.아래의 조인에 대하여 설명하시오.
+#EQUI JOIN
+조인 대상이 되는 두 테이블에서 공통적으로 존재하는 컬럼의 값이 일치되는 행을 연결하여 생성하는
+조인 기법. A = B, B = C일 때 A = C와 같다.
+
+#NON-EQUI JOIN
+동일 컬럼 없이 다른 조건(범위)을 사용하여 조인할 때 사용하는 조인 기법. 
+
+#SELF JOIN
+자기 자신과 조인하는 기법. 원하는 정보가 한 테이블에 있을 때 사용.
+
+#OUTER JOIN
+2개 이상의 테이블이 조인될 때 한쪽 테이블에는 존재하나 다른 쪽 테이블에 데이터가 존재하지 않는 경우
+데이터가 출력되지 않는 문제를 해결하기 위한 조인 기법.
+조인시킬 컬럼이 없는 테이블에 (+)를 붙인다.
+
+=========================
+6.EMP 테이블에서 부서 인원이 4명보다 많은 부서의 부서번호, 인원수, 급여의 합 출력
+SELECT deptno, count(ename), sum(sal) FROM emp GROUP BY deptno HAVING count(ename) > 4;
+
+7.각 사원별 커미션이 0 또는 NULL이고 부서위치가 'GO'로 끝나는 사원의 정보를 
+-- 사원번호, 사원이름, 커미션, 부섭너호, 부서명, 부서위치 출력
+-- 단, 보너스가 NULL이면 0으로 출력
+SELECT empno, ename, NVL(comm, 0), e.deptno, dname, loc FROM emp e, dept d 
+WHERE e.deptno = d.deptno AND NVL(comm, 0) = 0 AND loc LIKE '%GO';
+
+8.1981년 6월 1일~1981년 12월 31일 입사자 중 부서명이 SALES인 사원의 부서번호, 사원명,
+-- 직업, 입사일을 출력 (단, 입사일 오름차순 정렬)
+SELECT e.deptno, ename, job, 19||hiredate FROM emp e, dept d 
+WHERE e.deptno = d.deptno 
+AND hiredate BETWEEN TO_DATE('1981/06/01', 'YYYY/MM/DD') AND TO_DATE('1981/12/31', 'YYYY/MM/DD')
+ORDER BY hiredate ASC;
