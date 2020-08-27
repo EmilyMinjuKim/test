@@ -1,0 +1,40 @@
+BDao.java
+
+write함수
+String query = "insert into mvc_board (bId, bName, bTitle, bContent, bHit, bGroup, bStep, bIndent) "
+		+ "values (mvc_board_seq.nextval, ?, ?, ?, 0, mvc_board_seq.currval, 0, 0 )";
+
+bId -> mvc_board_seq.nextval
+새로 글 작성하여 id를 생성할 때 직전 id 값보다 하나 증가시킴
+nextval: 해당 시퀀스의 값을 증가시킴
+
+bGroup -> mvc_board_seq.currval
+답글이 아닌 원본글에 대해서는 id와 group값이 같아야 함.
+currval: 현재 시퀀스
+
+[DOM]
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Javascript</title>
+		<script>
+			window.onload = function() {
+			
+				var str = "";
+				str += "<p id='jsTitle'> javascript & node.js </p>";
+				str += "<img id='logoImg', src='./img/logo.png',";
+				str += "width='170', height='67', tempData='logoImg'>";
+				
+				document.body.innerHTML = str;
+				
+				var titleNode = document.getElementById("jsTitle");
+				titleNode.parentNode.removeChild(titleNode);
+				//	  body객체	p태그
+				var logoNode = document.getElementById("logoImg");
+				logoNode.parentNode.removeChild(logoNode);
+			};
+		</script>
+	</head>
+	<body>	
+	</body>
+</html>

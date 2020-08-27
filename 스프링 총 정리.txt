@@ -1,0 +1,50 @@
+1. pom.xml
+properties: 아래로 예전 코드 복붙
+
+2. web.xml
+유니코드 처리
+
+(servlet-context.xml에 있는 내용 모두 숙지~!)
+3. root-context.xml 
+커넥션풀(hikari), mybatis 설정
+
+4. 프로젝트 - Maven Update로 java8 버전 바뀐 것 확인!
+
+5. src/main/resources & test/resources > log4jdbc.log4j2.properties 복붙
+
+6. src/main/java > edu.bit.ex.board1 > BDto.java 복붙 + @AllArgsConstructor, @NoArgsConstructor 선언
+
+7. interface IBDao 생성
+=========================================
+<MyBatis>
+SQL구문을 XML로 빼서 따로 관리.
+프로그래밍은 interface로 함수 이름만 적어놓고 IBDao가 관리. 
+=========================================
+
+8. src/main/resources > edu.bit.ex 폴더 생성 > edu.bit.ex.mapper 패키지 생성 후 mapper에 기존에 만들었던 mapper.xml파일 삽입.
+board1.xml (=mapper)
+mapper namespace="해당 인터페이스 주소" : 여기서는 IBDao(<- 이것에 대한 구현이다 / 인터페이스인 IBDao를 MyBatis자손이 구현)
+select resultType="데이터를 가지고 올 클래스 주소"
+
+9. BService
+@Service 어노테이션 붙이기
+
+@Inject 삽입!
+SqlSession sqlSession; <- 이 자체가 MyBatis
+
+IBDao dao = sqlSession.getMapper(IBDao.class);
+
+IBDao.class => 동적 로딩(0101덩어리를 그대로 입력/"메모리에서" .class를 바로 생성하는 것)
+**board1.xml에서 IBDao를 구현은 하지만(메모리에는 올라가있음), .class를 정적으로 미리 생성해두는 것은 아님.
+그래서 Service 부분에서 sqlSession을 통해 동적으로 .class로 만들어야 함. -> AOP 방식
+
+10. root-context.xml
+sqlSessionFactory와 sqlSession 빈 추가
+
+11. BController
+@Controller 어노테이션
+
+@Inject
+Bservice bservice; 서비스 삽입
+
+@RequestMapping 매핑
