@@ -30,10 +30,13 @@ servlet-context.xml
 DispatcherServlet과 동시 생성
 
 [코드 리뷰]
-1) resources로 들어오는 경로는 dispatcher에 보내는 것이 아니라 resources 디렉토리를 검색
+1) annotation-driven
+HanddlerMapping, HandlerAdapter, Controller, ViewResolver 등의 객체 생성 및 관리
+
+2) resources로 들어오는 경로(클라이언트)는 Dispatcher에 보내는 것이 아니라 resources 디렉토리(로컬)를 검색
 <resources mapping="/resources/**" location="/resources/" />
 
-2) controller가 클라이언트 요청에 응답시 뜨는 페이지
+3) Controller가 클라이언트 요청에 응답시 뜨는 페이지
 <beans:bean class="org...InternalResourceViewResolver">
 	<beans:property name="prefix" value="/WEB-INF/views/" />
 	<beans:property name="suffix" value=".jsp/" />
@@ -41,12 +44,10 @@ DispatcherServlet과 동시 생성
 
 *** /WEB-INF/views/ + 뷰이름 + .jsp 라는 뷰페이지가 나옴
 
-3) 아래 명시된 패키지 내부만 스캔해서 controller 찾음
-<context:component-scan base-package="com.javalec.spring_ex_pjt:/>
+4) 아래 명시된 패키지 내부만 스캔해서 Controller 찾음
+<context:component-scan base-package="edu.bit.board" />
 
 
-
-→ annotation-driven(HanddlerMapping, HandlerAdapter, Controller, ViewResolver 등의 객체 생성 및 관리)
 
 → HandlerMapping(url과 해당 controller를 매핑)
 
@@ -61,9 +62,9 @@ DispatcherServlet과 동시 생성
 DispatcherServlet
 클라이언트의 모든 요청을 최초로 받아 요청 수행에 적합한 객체에 요청을 전달
 
-HandlerMapping
+HandlerMapping: Controller 해석
 
-HandlerAdapter
+HandlerAdapter: Controller 해석
 
 Controller 
 최초 클라이언트로부터 요청이 들어왔을 때, DispatcherServlet에 의해 컨트롤러로 진입.

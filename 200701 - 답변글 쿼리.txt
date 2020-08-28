@@ -7,8 +7,11 @@
 "update mvc_board set bStep = bStep + 1 where bGroup = ? and bStep > ?"
 답글을 저장할 때의 양식.
 set bStep = bStep + 1 : 답글이 달릴 때마다 원본글로부터 한 칸씩 내려감
-where bGroup = ? and bStep > ? : 동일 그룹 내에서 지금 삽입하려는 글보다 step이 큰 녀석들만 step을 올려줌.
-그래야 새로 생긴 글 밑으로 기존 글들이 밀리니까.
+where bGroup = ? and bStep > ? : 
+답변을 달기로 한 "원본글"을 기준으로 원본글과 그룹이 같고 원본글의 step(=0)보다 스텝이 큰 기존글들의 스텝을 증가시킴.
+(기존글은 모두 원본글보다 step이 큼)
+(reply함수에서 원본글 밑에 생성되는 최초의 댓글은 step이 1이게끔 설정함.)
+그래야 지금 생성되는 글 밑으로 이전 생성글들이 밀리니까.
 
 -댓글 insert 
 replyShape(bGroup, bStep); -> step 조정

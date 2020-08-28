@@ -1,15 +1,15 @@
-1. ì ˆëŒ€ ê²½ë¡œì™€ ìƒëŒ€ê²½ë¡œì— ëŒ€í•˜ì—¬ ì„¤ëª…í•˜ì‹œì˜¤.
-ì ˆëŒ€ ê²½ë¡œ: C:\ í˜¹ì€ D:\ë¥¼ ê¸°ì¤€ìœ¼ë¡œ ì§€ì •í•œ ê²½ë¡œ. ì´ë ‡ê²Œ ì§€ì •ëœ ê²½ë¡œëŠ” ìƒí™©ì— ë”°ë¼ ê·¸ ê²½ë¡œê°€ ë°”ë€Œì§€ ì•ŠìŒ.
-ìƒëŒ€ ê²½ë¡œ: 'í˜„ìž¬ ë””ë ‰í† ë¦¬'ë¥¼ ê¸°ì¤€ìœ¼ë¡œ í‘œí˜„ëœ íŒŒì¼ì´ë‚˜ ë””ë ‰í† ë¦¬ì˜ ìœ„ì¹˜. í˜„ìž¬ ë””ë ‰í† ë¦¬ê°€ ë°”ë€Œë©´ ìƒëŒ€ ê²½ë¡œê°€ ì§€ì •í•˜ëŠ” ëª¨ë“  ê²½ë¡œê°€ ê·¸ì— ë§žê²Œ ìˆ˜ì •ë¨.
+1. Àý´ë °æ·Î¿Í »ó´ë°æ·Î¿¡ ´ëÇÏ¿© ¼³¸íÇÏ½Ã¿À.
+Àý´ë °æ·Î: C:\ È¤Àº D:\¸¦ ±âÁØÀ¸·Î ÁöÁ¤ÇÑ °æ·Î. ÀÌ·¸°Ô ÁöÁ¤µÈ °æ·Î´Â »óÈ²¿¡ µû¶ó ±× °æ·Î°¡ ¹Ù²îÁö ¾ÊÀ½.
+»ó´ë °æ·Î: 'ÇöÀç µð·ºÅä¸®'¸¦ ±âÁØÀ¸·Î Ç¥ÇöµÈ ÆÄÀÏÀÌ³ª µð·ºÅä¸®ÀÇ À§Ä¡. ÇöÀç µð·ºÅä¸®°¡ ¹Ù²î¸é »ó´ë °æ·Î°¡ ÁöÁ¤ÇÏ´Â ¸ðµç °æ·Î°¡ ±×¿¡ ¸Â°Ô ¼öÁ¤µÊ.
 
-2. set classpath=.;~~~~~~~~~~~  ì—ì„œ classpathì˜ ìš©ë„ëŠ”?
-JVMì˜ í´ëž˜ìŠ¤ íƒìƒ‰ ê²½ë¡œ
+2. set classpath=.;~~~~~~~~~~~  ¿¡¼­ classpathÀÇ ¿ëµµ´Â?
+JVMÀÇ Å¬·¡½º Å½»ö °æ·Î
 
-3. ì•„ëž˜ë¥¼ ì½”ë”© í•˜ì‹œì˜¤.
+3. ¾Æ·¡¸¦ ÄÚµù ÇÏ½Ã¿À.
 GuguDan gu = new GuGuDan(7);
-gu.show();  // 7ë‹¨ ì¶œë ¥
+gu.show();  // 7´Ü Ãâ·Â
 gu.setDan(8);
-gu.show()  // 8ë‹¨ ì¶œë ¥.
+gu.show()  // 8´Ü Ãâ·Â.
 
 public class GuguDan {
 	int dan;
@@ -31,7 +31,7 @@ public class GuguDan {
 
 
 
-ì•„ëž˜ëŠ” ë©”ì¸í•¨ìˆ˜
+¾Æ·¡´Â ¸ÞÀÎÇÔ¼ö
 GuguDan gu = new GuguDan(7);
 gu.show();
 		
@@ -41,19 +41,19 @@ gu.show();
 
 
 
-4.íŒ¨í‚¤ì§€ëž€ ë¬´ì—‡ì´ë©°, ìš©ë„ëŠ”?
-íŒ¨í‚¤ì§€ëŠ” í´ëž˜ìŠ¤ë¥¼ ë¬¶ëŠ” ìˆ˜ë‹¨ì´ë‹¤.
-íŒ¨í‚¤ì§€ ì„ ì–¸ì€ í´ëž˜ìŠ¤ì˜ ì ‘ê·¼ ë°©ë²•ì„ êµ¬ë¶„í•˜ê³  í´ëž˜ìŠ¤ íŒŒì¼ì´ ê³µê°„ì ìœ¼ë¡œë„ êµ¬ë¶„ë˜ê²Œ í•œë‹¤.
-ê·¸ëž˜ì„œ ë™ì¼í•œ í´ëž˜ìŠ¤ ëª…ì„ ì‚¬ìš©í•˜ë”ë¼ë„ ì¶©ëŒí•˜ëŠ” ê²ƒì„ ë°©ì§€í•  ìˆ˜ ìžˆë‹¤.
+4.ÆÐÅ°Áö¶õ ¹«¾ùÀÌ¸ç, ¿ëµµ´Â?
+ÆÐÅ°Áö´Â Å¬·¡½º¸¦ ¹­´Â ¼ö´ÜÀÌ´Ù.
+ÆÐÅ°Áö ¼±¾ðÀº Å¬·¡½ºÀÇ Á¢±Ù ¹æ¹ýÀ» ±¸ºÐÇÏ°í Å¬·¡½º ÆÄÀÏÀÌ °ø°£ÀûÀ¸·Îµµ ±¸ºÐµÇ°Ô ÇÑ´Ù.
+±×·¡¼­ µ¿ÀÏÇÑ Å¬·¡½º ¸íÀ» »ç¿ëÇÏ´õ¶óµµ Ãæµ¹ÇÏ´Â °ÍÀ» ¹æÁöÇÒ ¼ö ÀÖ´Ù.
 
-5.ì •ë³´ì€ë‹‰ì´ëž€?
-ì¸ìŠ¤í„´ìŠ¤ ë³€ìˆ˜ì— ëŒ€í•œ ì§ì ‘ì ì¸ ì ‘ê·¼ì„ í—ˆìš©í•˜ì§€ ì•Šë„ë¡ í´ëž˜ìŠ¤ë¥¼ ì„¤ê³„í•˜ëŠ” ê²ƒ.
+5.Á¤º¸Àº´ÐÀÌ¶õ?
+ÀÎ½ºÅÏ½º º¯¼ö¿¡ ´ëÇÑ Á÷Á¢ÀûÀÎ Á¢±ÙÀ» Çã¿ëÇÏÁö ¾Êµµ·Ï Å¬·¡½º¸¦ ¼³°èÇÏ´Â °Í.
 
-6.ì•„ëž˜ì˜ í”„ë¡œê·¸ëž˜ë°ì„ í•˜ì‹œì˜¤.
+6.¾Æ·¡ÀÇ ÇÁ·Î±×·¡¹ÖÀ» ÇÏ½Ã¿À.
 StarPrint sp = new StarPrint(5);
-sp.floorShow(); //5ì¸µ í”¼ë¼ë°‹
+sp.floorShow(); //5Ãþ ÇÇ¶ó¹Ô
 sp.setFloor(3); 
-sp.floorShow(); //3ì¸µ í”¼ë¼ë°‹
+sp.floorShow(); //3Ãþ ÇÇ¶ó¹Ô
   *
  ***
 *****
@@ -72,21 +72,14 @@ public class StarPrint {
 	}
 	
 	void floorShow () {
-	
-		for (int i = 1; i <= floor; i++) {
-			
-			for (int j = 1; j <= floor-i; j++) {
-				System.out.print(" ");
-			}
-			
-			for (int k = 1; k <= (2*i - 1); k++) {
-				System.out.print("*");
-			}
-			
+		for (int i = 0; i < floor; i++) {
+			for (int j = 0; j < floor; j++) {
+				System.out.print(j<(floor-1-i)?" ":"* ");
+				} 
 			System.out.println();
-		}
+			}
 		
-	}
+		}
 
 }
 
@@ -97,23 +90,23 @@ public class StarPrint {
 
 
 
-7.ê°ì²´ì§€í–¥ ì–¸ì–´ì˜ íŠ¹ì§• 4ê°€ì§€ëŠ”(ì„¤ëª…ì€ ì•ˆí•´ë„ ì¢‹ìŒ)?
-ìƒì† Inheritance
-ì •ë³´ ì€ë‹‰ Information Hiding
-ë‹¤í˜•ì„± Polymorphism
-ìº¡ìŠí™” Encapsulation
+7.°´Ã¼ÁöÇâ ¾ð¾îÀÇ Æ¯Â¡ 4°¡Áö´Â(¼³¸íÀº ¾ÈÇØµµ ÁÁÀ½)?
+»ó¼Ó Inheritance
+Á¤º¸ Àº´Ð Information Hiding
+´ÙÇü¼º Polymorphism
+Ä¸½¶È­ Encapsulation
 
-8. ì•„ëž˜ì˜ ì ‘ê·¼ ë²”ìœ„ë¥¼ ì„¤ëª…í•˜ì‹œì˜¤.
--í´ëž˜ìŠ¤ ë‚´ì—ì„œì˜ public ê³¼ default.
-public: ìœ„ì¹˜ì— ìƒê´€ì—†ì´ ì–´ë””ì„œë“  í•´ë‹¹ í´ëž˜ìŠ¤ì˜ ì¸ìŠ¤í„´ìŠ¤ ìƒì„± ê°€ëŠ¥.
-default: ë™ì¼ íŒ¨í‚¤ì§€ë¡œ ë¬¶ì¸ í´ëž˜ìŠ¤ ë‚´ì—ì„œë§Œ ì¸ìŠ¤í„´ìŠ¤ ìƒì„± ê°€ëŠ¥.
+8. ¾Æ·¡ÀÇ Á¢±Ù ¹üÀ§¸¦ ¼³¸íÇÏ½Ã¿À.
+-Å¬·¡½º ³»¿¡¼­ÀÇ public °ú default.
+public: À§Ä¡¿¡ »ó°ü¾øÀÌ ¾îµð¼­µç ÇØ´ç Å¬·¡½ºÀÇ ÀÎ½ºÅÏ½º »ý¼º °¡´É.
+default: µ¿ÀÏ ÆÐÅ°Áö·Î ¹­ÀÎ Å¬·¡½º ³»¿¡¼­¸¸ ÀÎ½ºÅÏ½º »ý¼º °¡´É.
 
--ë©¤ë²„ë³€ìˆ˜ì™€ í•¨ìˆ˜ì˜ private , default, protected(ì´ê±°ëŠ” ë‚˜ì¤‘ì—)
+-¸â¹öº¯¼ö¿Í ÇÔ¼öÀÇ private , default, protected(ÀÌ°Å´Â ³ªÁß¿¡)
 
-9.ìº¡ìŠí™”ì— ëŒ€í•˜ì—¬ ì„¤ëª…í•˜ì‹œì˜¤.
-í•˜ë‚˜ì˜ ëª©ì ì„ ì´ë£¨ê¸° ìœ„í•´ ê´€ë ¨ ìžˆëŠ” ëª¨ë“  ê²ƒì„ í•˜ë‚˜ì˜ í´ëž˜ìŠ¤ì— ë‹´ì•„ ë‘ëŠ” ê²ƒ.
+9.Ä¸½¶È­¿¡ ´ëÇÏ¿© ¼³¸íÇÏ½Ã¿À.
+ÇÏ³ªÀÇ ¸ñÀûÀ» ÀÌ·ç±â À§ÇØ °ü·Ã ÀÖ´Â ¸ðµç °ÍÀ» ÇÏ³ªÀÇ Å¬·¡½º¿¡ ´ã¾Æ µÎ´Â °Í.
 
-10. ì•„ëž˜ì˜ í”„ë¡œê·¸ëž¨ì„ ìž‘ì„± í•˜ì‹œì˜¤.
+10. ¾Æ·¡ÀÇ ÇÁ·Î±×·¥À» ÀÛ¼º ÇÏ½Ã¿À.
 
 		Triangle t1 = new Triangle(10, 20);
 		Triangle t2 = new Triangle(10, 20);
@@ -122,9 +115,9 @@ default: ë™ì¼ íŒ¨í‚¤ì§€ë¡œ ë¬¶ì¸ í´ëž˜ìŠ¤ ë‚´ì—ì„œë§Œ ì¸ìŠ¤í„´ìŠ¤ ìƒì„± ê
 		t1.equalTriangle(t2);
 		t1.equalTriangle(t3);
 
-===ì¶œë ¥====
-ê°™ì€ ì‚¼ê°í˜• ìž…ë‹ˆë‹¤.
-ë‹¤ë¥¸ ì‚¼ê°í˜• ìž…ë‹ˆë‹¤.
+===Ãâ·Â====
+°°Àº »ï°¢Çü ÀÔ´Ï´Ù.
+´Ù¸¥ »ï°¢Çü ÀÔ´Ï´Ù.
 
 
 
@@ -141,9 +134,9 @@ public class Triangle {
 	
 	void equalTriangle (Triangle t) {
 		if (t.width == this.width && t.height == this.height) {
-			System.out.println("ê°™ì€ ì‚¼ê°í˜•ìž…ë‹ˆë‹¤.");
+			System.out.println("°°Àº »ï°¢ÇüÀÔ´Ï´Ù.");
 		} else {
-			System.out.println("ë‹¤ë¥¸ ì‚¼ê°í˜•ìž…ë‹ˆë‹¤.");
+			System.out.println("´Ù¸¥ »ï°¢ÇüÀÔ´Ï´Ù.");
 		}
 	}
 	
@@ -160,4 +153,4 @@ public class Triangle {
 
 
 
-11.ë””ìžì¸íŒ¨í„´ ì±…ì˜ ì €ìžì˜ ì´ë¦„ì€ ëˆ„êµ¬ì´ë©°, ì†Œê°œëœ íŒ¨í„´ì˜ ì´ë¦„ë§Œ í•œë²ˆì”© ì½ì–´ ë³´ì„¸ìš”.
+11.µðÀÚÀÎÆÐÅÏ Ã¥ÀÇ ÀúÀÚÀÇ ÀÌ¸§Àº ´©±¸ÀÌ¸ç, ¼Ò°³µÈ ÆÐÅÏÀÇ ÀÌ¸§¸¸ ÇÑ¹ø¾¿ ÀÐ¾î º¸¼¼¿ä.

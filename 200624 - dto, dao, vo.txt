@@ -1,0 +1,245 @@
+1.DTO 란 무엇인가?
+DTO(data transfer obj)는 DB의 자료를 객체화시키기 위한 클래스. 전송되는 데이터의 컨테이너.
+VO와 비교를 하여 보면 DTO는 같은 시스템에서 사용되는 것이 아닌 다른 시스템으로 전달하는 작업을 처리하는 객체이다.
+
+DAO에 의해서 데이터를 가져왔을 때 해당 데이터가 jsp 혹은 servlet에 섞여들어가 관리의 어려움이 발생하는 것을 방지.
+데이터들만 따로 모아서 하나의 클래스로 관리하기 위해 DTO 클래스 사용.
+
+2.DAO 란 무엇인가?
+DAO(data access obj)는 ArrayList를 통해 DB의 자료를 DTO에 담아내는 역할을 수행.
+       ↘connection, statement, resultset 필요
+
+DB에 접속해서 데이터 추가, 삭제, 수정 등의 '작업'을 하는 클래스.
+일반적인 jsp 혹은 servlet 페이지 내에서 작업을 기술할 수도 있지만, 유지보수 및 코드의 모듈화를 위해 
+별도의 DAO 클래스를 만들어 사용함.
+
+3.VO란 무엇인가?
+데이터 그 자체로 의미 있는 것을 담고 있는 객체이다.
+DTO와 동일한 개념이나 차이점은 Read–Only 속성 객체이다.
+
+4.PreparedStatement 와 Statement 의 차이는?
+캐시 사용 여부.
+
+Statement를 사용하면 매번 쿼리를 수행할 때마다 1) 쿼리 문장 분석 2) 컴파일 3) 실행 단계를 거치게 되고, 
+PreparedStatement는 처음 한 번만 세 단계를 거친 후 캐시에 담아 재사용을 한다. 
+만약 동일한 쿼리를 반복적으로 수행한다면 PreparedStatment가 DB에 훨씬 적은 부하를 주며, 성능도 좋다.
+
+5. emp를 VO 객체와 DAO 객체를 만들어, 모두 나타나도록 하시오.
+MemberDTO.java
+
+package edu.bit.ex.dto;
+
+public class MemberDTO {						//DB에서 가져온 데이터를 객체화하여 저장하는 클래스
+	private String name, id, pw, phone1, phone2, phone3, gender;
+	
+	public MemberDTO(){}	//default생성자 넣는 습관
+
+	public MemberDTO(String name, String id, String pw, String phone1, String phone2, String phone3, String gender) {
+		this.name = name;
+		this.id = id;
+		this.pw = pw;
+		this.phone1 = phone1;
+		this.phone2 = phone2;
+		this.phone3 = phone3;
+		this.gender = gender;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getPw() {
+		return pw;
+	}
+
+	public void setPw(String pw) {
+		this.pw = pw;
+	}
+
+	public String getPhone1() {
+		return phone1;
+	}
+
+	public void setPhone1(String phone1) {
+		this.phone1 = phone1;
+	}
+
+	public String getPhone2() {
+		return phone2;
+	}
+
+	public void setPhone2(String phone2) {
+		this.phone2 = phone2;
+	}
+
+	public String getPhone3() {
+		return phone3;
+	}
+
+	public void setPhone3(String phone3) {
+		this.phone3 = phone3;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	
+}
+
+MemberDAO.java
+
+package edu.bit.ex.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import edu.bit.ex.dto.MemberDTO;
+
+public class MemberDAO {
+
+	private String url = "jdbc:oracle:thin:@localhost:1521:xe";
+	private String uid = "scott";
+	private String upw = "tiger";
+	private String driver = "oracle.jdbc.driver.OracleDriver";
+	
+	public MemberDAO() {
+		try {
+			Class.forName(driver);	//DAO를 생성하는 순간 OracleDriver를 로드.
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public ArrayList<MemberDTO> memberSelect(){
+		ArrayList<MemberDTO> dtos = new ArrayList<MemberDTO>();		//ArrayList 초기화
+		
+		Connection con = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT * from member";
+		
+		try {
+			con = DriverManager.getConnection(url, uid, upw);
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				String name = rs.getString("name");		//DB에서 정보 가져오기
+				String id = rs.getString("id");
+				String pw = rs.getString("pw");
+				String phone1 = rs.getString("phone1");
+				String phone2 = rs.getString("phone2");
+				String phone3 = rs.getString("phone3");
+				String gender = rs.getString("gender");
+				
+				MemberDTO dto = new MemberDTO(name, id, pw, phone1, phone2, phone3, gender);	//DB 정보들을 객체화 시키기
+				dtos.add(dto);		//ArrayList에 객체 집어넣기
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null) rs.close();		
+				if(stmt != null) stmt.close();
+				if(con != null) con.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		
+		return dtos;
+	}
+	
+}
+
+member.jsp
+
+<%@page import="edu.bit.ex.dto.MemberDTO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="edu.bit.ex.dao.MemberDAO"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
+	<%
+		MemberDAO memberDAO = new MemberDAO();	DAO객체 생성
+		ArrayList<MemberDTO> dtos = memberDAO.memberSelect();	DAO클래스의 memberSelect함수 호출
+									그리고 이 페이지의 ArrayList에 담기.
+		for(int i=0; i<dtos.size(); i++) {
+			MemberDTO dto = dtos.get(i);		DTO를 하나하나 꺼냄
+			String name = dto.getName();		이 페이지에 담기
+			String id = dto.getId();
+			String pw = dto.getPw();
+			String phone = dto.getPhone1() + " - "+ dto.getPhone2() + " - " + dto.getPhone3();
+			String gender = dto.getGender();
+			
+			out.println("이름 : " + name + ", 아이디 : " + id + ", 비밀번호 : " + pw + ", 연락처 : " + phone + ",  성별 : " + gender + "<br />" );
+		}
+	%>
+</body>
+</html>
+
+6.DBCP 에 대하여 설명하시오.
+클라이언트에서 다수의 요청이 발생할 때 가장 많은 시간이 걸리는 곳이 connection.
+톰켓 서버에 미리 커넥션 객체를 생성해 두고 과부화를 방지하는 것이 커넥션 풀(DBCP).
+
+7.CARTESIAN PRODUCT 이란 = cross join
+두 테이블의 모든 데이터 간의 결합.
+발생 가능한 모든 경우의 수의 행이 출력됨. n개의 행을 가진 테이블과 m개의 행을 가진 테이블의 카티시안 곱은
+n*m이 된다.
+
+8. JOIN 에 대하여 설명하시오.
+여러 테이블로 나눠진 데이터를 조회하기 위해 사용.
+
+9. group by 에 대하여 설명 하고 group by 의 조건을 주는 방법은?
+그룹 바이는 공통적인 데이터 별로 묶어서 연산 처리를 하고싶을 때 사용함. 조건은 그룹 바이 뒤에 해빙으로.
+
+
+-10번 부서의 월급 평균, 최대값, 최소값을 구하시오
+select trunc(avg(sal)), min(sal), max(sal) from emp where deptno = 10;
+
+-부서별 월급 평균, 최대값, 최소값을 구하시오.
+select deptno, trunc(avg(sal)) from emp group by deptno;
+
+-10번 부서에 속한 사람들의 직책별 월급평균을 구하시오
+select job, trunc(avg(sal)) from emp where deptno = 10 group by job;
+
+-부서별 월급 평균, 최대값, 최소값을 구하되 월급평균이 3000이상인 부서에 대하여 구하시오
+select trunc(avg(sal)), min(sal), max(sal) from emp group by deptno having avg(sal) >= 3000;
+
+-직책별 월급평균, 최대값, 최소값을 구하되 월급의 최대값이 4000보다 큰 직책에 대하여 구하시오
+select trunc(avg(sal)), min(sal), max(sal) from emp group by job having max(sal) > 4000;
+
+-10번 부서에 속한 사람들의 직책별 월급평균을 구하되 월급평균이 3500이하인 직책에 대하여 구하시오.
+select job, avg(sal) from emp where deptno = 10 group by job having avg(sal) <= 3500;
+
+-직책이 CLERK인 사람들의 부서별 월급 평균, 최대값을 구하되 월급의 최대값이 3600보다 작은 부서에 대하여 구하시오.
+select trunc(avg(sal)), min(sal) from emp where job = 'clerk' group by deptno having max(sal) < 3600;
+
+-이름에 ER이 들어있는 사람들의 직책별 월급평균, 최대값, 최소값을 구하시오.
+SELECT job, trunc(avg(sal)), min(sal), max(sal) FROM emp WHERE ename LIKE '%ER%' group by job;

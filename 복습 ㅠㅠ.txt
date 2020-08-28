@@ -1,0 +1,15 @@
+[BoardController]
+GetMapping
+model에 정보를 담아서 jsp로 보냄
+
+어디서 받아오냐? -> Service
+
+[BoardService]
+Dao가 많을 때 Service사용
+
+[BoardServiceImpl]
+Controller가 요청한 정보를 가지고 옴
+
+무엇을 그릇으로? -> Mapper
+return mapper.getList(); 
+mapper에 리스트를 담아서 가지고 온 것.
