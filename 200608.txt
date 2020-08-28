@@ -1,0 +1,42 @@
+1. 제네릭 사용 이유?
+형변환을 해야 하는 불편함을 해소하고 컴파일 과정에서 오류가 발견되도록 하기 위해.
+
+
+
+2.496page 문제 21-1 번을 푸시오.
+문제1
+class DDBox<U, D> {
+	private U up;
+	private D down;
+	public void set(U o, D r) {
+		up = o;
+		down = r;
+	}
+	public String toString() { return up + "\n" + down; }
+}
+
+문제2
+DDBox 클래스 지우고 main 내에서 
+DBox<DBox<String, Integer>, DBox<String, Integer>> ddbox = new DBox<>();
+이렇게 코드 바꾸면 됨.
+
+출력 => Apple & 25 & Orange & 33
+
+
+
+3.제넉릭 메소드란?
+타입 매개변수를 임의로 설정할 수 있는 메소드. 제네릭 메소드는 '메소드 호출시에 자료형이 결정'된다.
+(제네릭 클래스는 인스턴스 생성 시 자료형이 결정된다.)
+
+4.아래가 호출되도록 BoxFactory 클래스를 만드시오.
+Box<String> sBox = BoxFactory.makeBox("Sweet");
+Box<Double> dBox = BoxFactory.makeBox(7.59);
+503 참고
+
+5.다음용어를 정리하시오.
+-http
+프로토콜의 한 종류. 프로토콜이란 네트워크상에서 약속한 통신규약.
+-도메인네임
+IP주소를 인간이 쉽게 외우도록 맵핑한 문자열. IP주소란 네트워크상에서 컴퓨터를 식별할 수 있는 주소.
+-포트번호
+해당 컴퓨터의 구동되고 있는 프로그램을 구분할 수 있는 번호.

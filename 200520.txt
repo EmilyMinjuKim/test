@@ -1,0 +1,176 @@
+1. class 란 무엇과 무엇으로 구성되어 있는가?
+데이터, 메소드
+
+2.아래의 용어를 설명하시오.
+인스턴스 변수: 클래스 내에 선언된 변수
+로컬변수: 함수 내에 선언된 변수
+
+3.클래스와 인스턴스의 차이?
+클래스는 틀을 구성하는 것. & "자바 파일을 컴파일 한 것." 
+클래스로 구성한 틀로 찍어낸 것이 인스턴스(즉, 객체).
+"인스턴스란, 컴파일 한 .class를 new 키워드를 통해 메모리에 올린 것."
+
+4. BankAccount yoon = new BankAccount(); 의 메모리를 그리시오.
+
+
+5.아래 프로그램의 출력결과를 예측하고,메모리그림으로 설명하시오.
+
+public class BankAccount {
+	int account = 0;
+}
+
+public class BankAccountOO {
+
+	public static void check(BankAccount bank) {
+		
+		System.out.println(bank);
+		System.out.println(bank.account);
+		
+		bank.account = 90;
+		
+	}
+	public static void main(String[] args) {
+		
+		BankAccount yoon = new BankAccount();
+		
+		yoon.account = 10; //옥상 올라감.
+		
+		System.out.println(yoon);
+		System.out.println(yoon.account);				
+		
+		check(yoon);
+		
+		System.out.println(yoon.account);		
+	}
+
+}
+
+1) 참조형 BankAccount 변수형을 가진 yoon이라는 변수에 4바이트 메모리 할당.
+2) new 호출을 통해 .class 의 인스턴스 주솟값이 yoon에 저장됨. 
+3) yoon.account를 통해 BankAccount 인스턴스 호출 후 account (여기서는 int)함수를 찾아서 10 값을 넣고 메소드 실행.
+4) 		System.out.println(yoon); -> yoon에 저장된 .class BankAccount의 주소
+		System.out.println(yoon.account); -> 10
+5) check(yoon); check 함수에 yoon 변수를 넣음. 
+
+		System.out.println(bank); -> yoon과 동일한 결과.
+		System.out.println(bank.account); -> yoon과 동일한 결과.
+
+check, yoon 둘 다 참조형 변수를 선언했지만, 인스턴스는 하나만 생성하고 주소도 공유함. 그래서 결과가 같게 나오는 것.
+
+6)
+		bank.account = 90; -> BankAccount의 int에 90이 저장됨.
+		System.out.println(yoon.account);	 -> 90이 출력됨.
+
+
+
+6.1. 클래스 이름 : Triangle 
+     -인스턴스 변수 : width,height
+     - 원의 넓이를 구하는 함수 : getArea
+     - 변수 셋팅 함수고,  Test 클래스에서
+ 테스트 하시오.
+
+
+class Triangle {
+
+	private int width, height;
+	public Triangle(){}
+	private void setWidth (int w) {
+		width = w;
+	}
+
+	private void setHeight (int h) {
+		height = h;
+	}
+
+	public double getArea () {
+		return width * height / 2.0;	
+	}
+
+
+
+}
+
+
+
+class Test {
+
+	public static void main(String[] args) {
+
+		Triangle myTriangle = new Triangle();
+		
+		myTriangle.setWidth(2);
+		myTriangle.setHidth(2);
+
+		System.out.println(myTriangle.getArea());
+
+	
+	}
+
+
+}
+
+
+
+
+
+7. 클래스 이름 : Student 
+     -인스턴스 변수 : kor, eng, math
+     -setter 함수 작성 
+     - grade 함수 average 함수 작성
+     Test 클래스에서 평균과 수우미양가를 출력하는 프로그램을 작성하시오.
+
+
+class Student {
+
+	int kor, eng, math;
+	void setKor (int k) {
+		kor = k;
+	}
+
+	void setEng (int e) {
+		eng = e;
+	}
+
+	void setMath (int m) {
+		math = m;
+	}
+
+	double getAvg () {
+		return (kor + eng + math) / 3;	
+	}
+
+}
+
+
+
+class Test {
+
+	public static void main(String[] args) {
+
+		Student myStudent = new Student();
+		
+		myStudent.setKor(20);
+		myStudent.setEng(20);
+		myStudent.setEng(20);
+
+		if (myStudent.getAvg() >= 90) {
+			System.out.println(myStudent.getAvg() + " 수");
+		} else if (myStudent.getAvg() >= 80) {
+			System.out.println(myStudent.getAvg() + " 우");
+		} else if (myStudent.getAvg() >= 70) {
+			System.out.println(myStudent.getAvg() + " 미");
+		} else if (myStudent.getAvg() >= 60) {
+			System.out.println(myStudent.getAvg() + " 양");
+		} else {
+			System.out.println(myStudent.getAvg() + " 가");
+		}
+	}
+}
+
+
+
+
+
+8.재귀함수란 무엇인가?
+재귀란 순환을 뜻한다.
+재귀 함수의 정의 안에는 함수의 실행문이 삽입되어 있다.

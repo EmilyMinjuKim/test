@@ -1,0 +1,93 @@
+1.Model 객체에 대하여 설명하시오.
+모델은 HashMap 형태를 갖고 있으므로 key값과 value값처럼 사용할 수 있다.
+addAttribute는 Map의 put과 같은 기능이어서 이를 통해 해당 모델에 원하는 속성과 그것에 대한 값을 주어
+뷰에 데이터를 전달할 수 있다.
+
+2.ModelAndView 객체의 사용법은?
+@Controller
+public class Homecontroller{
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String home(...){
+		.
+		.
+		.
+		return "home";		//뷰페이지 이름
+	}
+	
+	//Model클래스를 이용한 데이터 전달(MVC의 M)
+	@RequestMapping("/board/content")		
+	public String content(Model model){		//Model 객체를 파라미터로 받음
+		model.addAttribute("id", 30);		//Model 객체에 데이터를 담음
+		return "board/content";
+	}
+
+	//Model을 컨트롤러 안에서 직접 생성
+	@RequestMapping("/board/reply")		
+	public ModelAndView reply(){		
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("id", 30);		
+		mv.setViewName("board/reply");
+
+		return "mv;
+	}	
+}
+
+스프링 13장
+3.@RequestParam을 설명하시오.
+HttpServletRequest처럼 객체로 사용자가 요청한 데이터를 받는 것이 아니라,
+url로 데이터를 받음
+##url에 정보가 없으면 400에러 발생.
+
+@RequestMapping("board/checkId")
+public String checkId(@RequestParam("id") String id, @RequestParam("pw") int pw, Model model){
+	model.addAttribute("identify", id);
+	model.addAttribute("password", pw);
+	return "board/checkId";
+}
+
+4.req.getParameter 보다 @RequestParam 의 장점은?
+
+5.command(데이터)객체란?
+@RequestParam과 달리 일일이 코드를 작성할 필요 없음. 코드가 훨씬 간단.
+파라미터로 데이터 객체를 넣으면 스프링이 알아서 command 객체 및 그 객체 내부의 getter, setter 설정.
+
+@RequestMapping("/member/join")
+public String joinData(Member member){
+	return "member/join";
+}
+
+
+ - 유의할점 2가지는?
+
+
+
+6.HttpServletRequest 객체를 설명하시오.
+사용자가 요청한 데이터를 "받는: 객체.
+(Model 객체: 데이터를 담아서 View로 "넘기는" 객체)
+
+@RequestMapping("board/confirmId")
+public String confirmId(HttpServletRequest httpServletRequest, Model model){
+	String id = httpServletRequest.getParameter("id");
+	String pw = httpServletRequest.getParameter("pw");
+	model.addAttribute("id", id);
+	model.addAttribute("pw", pw);
+	return "board/confimId";
+}
+
+7.정보은닉이란?
+
+8.아래를 프로그래밍 하시오.
+-프로토타입으로 함수를 만들것
+
+			var player1 = new Scoring("홍길동", 99, 90, 92);
+			console.log(player1.player + "의 총점 : " + player1.getTotal());
+			console.log(player1.player + "의 평균 : " + player1.getAverage());
+			
+			var player2 = new Scoring("홍길순", 80, 90, 85);
+			console.log(player2.player + "의 총점 : " + player2.getTotal());
+			console.log(player2.player + "의 평균 : " + player2.getAverage());
+
+9.아래를 스프링 mvc로 프로그래밍 하시오.
+이름 국어 영어 수학 을 입력 하는 페이지를 만든후, 이름과 총점 평균을 클라이언트에게 보내줄것
+1)조건 - command 객체 사용 할것
+2)롬복이 사용 할것.

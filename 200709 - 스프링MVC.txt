@@ -1,0 +1,140 @@
+<스프링 동작 순서>
+client -> DispatcherServlet -> Controller 
+			(Model&View)
+View(jsp) <- DispatcherServlet    <┘
+
+
+
+1.스프링 mvc 란 무엇인가?
+
+2.아래를 설명하시오.
+pom.xml
+Maven 설정 → maven repository(dependency 다운로드) 
+
+web.xml
+tomcat설정 for 서버 구동 → "/"(루트)로 오는 모든 것을 DispatcherServlet 객체로 받겠다고 선언 및 해당 객체 생성 
+1) DispatcherServlet 서블릿 맵핑
+2) 스프링 설정 파일 위치 정의
+
+.
+.
+<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+.
+.
+
+
+
+
+servlet-context.xml
+스프링 컨테이너 설정 파일
+DispatcherServlet과 동시 생성
+
+[코드 리뷰]
+1) resources로 들어오는 경로는 dispatcher에 보내는 것이 아니라 resources 디렉토리를 검색
+<resources mapping="/resources/**" location="/resources/" />
+
+2) controller가 클라이언트 요청에 응답시 뜨는 페이지
+<beans:bean class="org...InternalResourceViewResolver">
+	<beans:property name="prefix" value="/WEB-INF/views/" />
+	<beans:property name="suffix" value=".jsp/" />
+</beans:bean>
+
+*** /WEB-INF/views/ + 뷰이름 + .jsp 라는 뷰페이지가 나옴
+
+3) 아래 명시된 패키지 내부만 스캔해서 controller 찾음
+<context:component-scan base-package="com.javalec.spring_ex_pjt:/>
+
+
+
+→ annotation-driven(HanddlerMapping, HandlerAdapter, Controller, ViewResolver 등의 객체 생성 및 관리)
+
+→ HandlerMapping(url과 해당 controller를 매핑)
+
+→ HandlerAdapter
+
+→ Controller(context.xml 안의 @component로 생성 / @component 자식: controller, service, repository)
+
+
+
+
+3.스프링의 아래의 객체에 대하여 설명하고, 해당 스프링의 실행 순서는?
+DispatcherServlet
+클라이언트의 모든 요청을 최초로 받아 요청 수행에 적합한 객체에 요청을 전달
+
+HandlerMapping
+
+HandlerAdapter
+
+Controller 
+최초 클라이언트로부터 요청이 들어왔을 때, DispatcherServlet에 의해 컨트롤러로 진입.
+컨트롤러는 요청에 대한 작업을 한 후 뷰쪽으로 데이터를 전달.
+
+[컨트롤러 제작 순서]
+     Controller를 이용한 클래스 생성
+		|
+@RequestMapping을 이용한 요청 경로 지정
+		|
+	요청 처리 메소드 구현
+		|
+	     뷰 이름 리턴
+
+@Controller
+public class Homecontroller{
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String home(...){
+		.
+		.
+		.
+		return "home";		//뷰페이지 이름
+	}
+	
+	//Model클래스를 이용한 데이터 전달(MVC의 M)
+	@RequestMapping("/board/content")		
+	public String content(Model model){		//Model 객체를 파라미터로 받음
+		model.addAttribute("id", 30);		//Model 객체에 데이터를 담음
+		return "board/content";
+	}
+
+	//Model을 컨트롤러 안에서 직접 생성
+	@RequestMapping("/board/reply")		
+	public ModelAndView reply(){		
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("id", 30);		
+		mv.setViewName("board/reply");
+
+		return "mv;
+	}	
+}
+
+↓
+to viewpage
+↓
+
+//content.jsp
+</head>
+<body>
+	content.jsp입니다 <br />		컨트롤러에서 전달받은 Model객체 속성을 이용함
+	id: ${id}
+</body>
+</html>
+
+
+
+
+
+
+
+ViewResolver
+'DispatcherServlet - Controller'에서 받은 응답 결과를 View로 전달함.
+
+View
+home.jsp
+
+4.jsp로 spring을 짜 보시오.
+
+js 10, 11강
+5. 아래의 javascript 함수를 만드시오.
+
+var sorento = createCar("SORENTO", "GREY", 220);
+			console.log("sorento.name : " + sorento.name);
+			console.log("sorento.run : " + sorento.run());

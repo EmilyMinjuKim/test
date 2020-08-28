@@ -1,0 +1,95 @@
+﻿1.Servlet 라이프사이클(생명주기)
+Servlet은 최초 요청시 객체가 만들어져 메모리에 로딩되고, 이후 요청시에는 기존 객채 재활용. 따라서 동작 속도가 빠름.
+
+Servlet 객체 생성 - init() 호출 - service(), doGet(), doPost() 호출 - destroy() 호출
+	     최초 한 번		요청시 매번	           마지막 한 번	
+						           ↘자원 해제: servlet 수정, 서버 재가동 등
+
+**init()호출 전 선처리: @PostConstruct
+**destroy()호출 후 후처리: @PreDestroy
+
+2.servlet 컨테이너
+[Servlet 작동 순서] (JVM이 아니라 톰켓이 관리)
+웹브라우저 - 웹서버 - WAS - Servlet 컨테이너(1. 스레드 생성 2. Servlet 객체 생성)
+클라이언트에서 servlet 요청이 들어오면 서버에서는 servlet컨테이너를 만들고, 요청이 있을 때마다 스레드가 생성됨.
+
+3.<context-param>과 <init-param> 의 차이는?
+
+ 컨텍스트 초기화 파라미터(<context-param>)
+
+- <web-app>항목내에 작성
+
+- 예) DD상에 작성방법
+
+<web-app ...>
+
+    <context-param>
+
+        <param-name>paraname</param-name>
+
+        <param-value>paravalue</param-value>
+
+    </context-param>
+
+</web-app>
+
+- 서블릿 상에서 호출시
+
+: getServletContext().getInitParameter("paraname");
+
+- 범위
+
+: 웹 애플리케이션에 존재하는 어떤 서블릿이나 jsp모두
+
+ 
+
+서블릿 초기화 파라미터(<init-param>)
+
+- <servlet>항목 안에 작성
+
+- 예) DD상에 작성방법
+
+<servlet>
+
+    <servlet-name>servletname</servlet-name>
+
+    <servlet-class>servletclass</servlet-class>
+
+    <init-param>
+
+        <param-name>paraname</param-name>
+
+        <param-value>paravalue</param-value>
+
+    </init-param>
+
+</servlet>
+
+- 서블릿 상에서 호출시
+
+getServletConfig().getInitParameter("foo");
+
+- 범위
+
+<init-param>항목을 표함하고 있는 서블릿만
+
+(서블릿 코드 안에서 이 값을 속성에 저장하여 다른 컴포넌트에서도 이용 가능하게 만들 수 있다)
+
+
+4.context path
+-WAS에서 웹어플리케이션을 구분하기 위한 path.
+-이클립스에서 프로젝트를 생성하면 자동으로 server.xml에 추가됨.
+
+context: 프로젝트 명
+
+5.position 속성 4가지에 대하여 설명하시오.
+absolute: 절대 좌표. 기준점은 자신을 감싸고 있는 태그의 좌상단. 
+fixed: "화면상" 항상 정해진 좌표에 위치함. 따라서 스크롤바를 움직여도 늘 같은 자리에 위치하는 것처럼 보임.
+(반면 absolute는 화면상에 나타나는 것과 상관없이 지정된 좌표에만 머뭄.)
+static: default position값. 즉, position에 아무런 지정을 하지 않았을 때의 위치.
+단, position을 static으로 지정하면 top, left 등의 값을 따로 설정하더라도 본래 블럭이 위치해야 할 자리에 머뭄.
+relative: 본래 블럭이 위치해야 하는 지점이 기준점. 
+
+6.예제 jsp_7_1_ex_formex를 외우시오.
+
+7.실전 HTML5 & CSS동영상강좌_12강_CSS 속성-III.pptx 에 있는 화면을 구현하시오.

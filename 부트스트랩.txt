@@ -1,0 +1,12 @@
+부트스트랩
+
+폰트 컬러
+<body>
+	<p class="text-muted">색상 체크</p>
+	<p class="text-primary">색상 체크</p>
+	<p class="text-success">색상 체크</p>
+	<p class="text-info">색상 체크</p>
+	<p class="text-warning">색상 체크</p>
+	<p class="text-danger">색상 체크</p>
+	<p class="text-body">색상 체크</p>
+</body>

@@ -1,0 +1,78 @@
+1. 형변환이란? 
+변수 또는 상수의 타입을 변환하는 것.
+
+2. 형변환이 언제 일어나는가?
+타입이 다를 때 / 대입 / 연산
+
+3. 형변환 원칙
+자료형의 크기가 큰 방향으로 형 변환이 일어난다.
+자료형의 크기에 상관없이 정수 자료형보다 실수 자료형이 우선한다.
+
+4. 형변환 종류
+자동 형변환 / 명시적 형변환
+
+5. JVM은 32bit. 따라서 정수 기본형은 int(4byte=32bit)임.
+byte, short는 32bit 미만이지만 CPU 연산시에는 물리적인 이유 때문에(하드웨어적 특성 때문에) 32bit를 메모리와 주고 받을 수 밖에 없음.
+그렇기 때문에 byte, short 연산시 int로 형변환을 해주어야 함.
+
+6.아래의 프로그램을 짜시오.
+ -100 이 짝수 이면 짝수 입니다 라고 출력 하는 프로그램을 작성하시오.
+
+class A {
+
+	public static void main(String[] args) {	
+		int num = 100;
+		boolean result = ((num%2) == 0);
+		if (result == true) {
+			System.out.println(num + "은 짝수입니다.");	
+			}
+	
+	}
+
+}
+
+ - 66 이  2의 배수 이고 3의 배수가 맞는지 출력하는 프로그램을 작성하시오.
+
+class B {
+
+	public static void main(String[] args) {
+		int num = 66;
+		boolean result = ((num%2) == 0) && ((num%3) == 0);
+		System.out.println("66은 2의 배수이면서 3의 배수인가? " + result);
+	}
+
+}
+
+ - 90 과 91 중 큰수를 출력하는 프로그램을 작성하시오.
+
+class C {
+
+	public static void main(String[] args) {
+		int num1 = 90;
+		int num2 = 91;
+		if (num1 < num2) {
+			System.out.println(num1 + "과 " + num2 + " 중 더 큰 수는 " + num2 + "입니다.");
+		} else {
+			System.out.println(num1 + "과 " + num2 + " 중 더 큰 수는 " + num1 + "입니다.");
+			}
+	}
+
+}
+
+5. 전위 연산자와 후위 연산자에 대하여 설명하시오.
+num++ 와 ++num 의 차이
+num++은 num이 먼저 출력된 후 1의 값이 증가한다.
+++num은 num값에 1을 증가시킨 값을 출력한다.
+
+6. & 와 && 의 차이는 무엇인가?
+&는 비트 단위로 &&(AND) 연산을 한다. 자릿수별 비트값이 같으면 1, 다르면 0을 출력.
+&&는 관계 연산자로 교집합을 나타낸다.
+
+7. -1을 2의 보수법(이진수)으로 표현하시오.
+11111111
+
+8. 아래의 출력에 대한 원리를 생각하여 보시오(연산자 우선순위 등을 생각하여).
+System.out.println("이원의 넓이는 " + 3.14 *10 * 10 + "입니다.");
+int < double < String 순으로 형변환이 일어남. 자료형의 크기가 더 큰 쪽으로. 하지만 곱, 나누기 연산이 있는 경우는 그 연산부터.
+
+<-> System.out.println("7" + 8 + 9 + 10); 결과는 78910. String이 먼저 인식되므로 뒤의 int 또한 String 으로 형변환하여 인식됨.

@@ -1,0 +1,196 @@
+1.자바스크립트에서 아래를 예를 들어 설명하시오.
+-함수 안에 함수
+function funName(){
+      실행문
+	return function(){
+	      실행문		→ 함수 반환
+	}
+}
+
+-콜백함수
+매개변수로 함수를 전달하고, 전달된 매개변수가 특정 시점에 호출되는 것
+
+-클로저
+반환된 함수의 life-cycle이 종료될 때까지 호출된 함수의 life-cycle이 유지되는 것
+
+-함수안에 또다른 함수(내부함수)
+외부에서는 호출 불가(like 지역변수)
+
+
+2.Environment객체를 이용해서 스프링 빈 설정을 위한 아래의 객체를 설명하시오.
+자바 프로젝트를 진행할 때 외부에서 설정값을 끌어온다. ex) DB 접근 id, address 등
+DB가 이전하는 등 설정값이 바뀔 때 자바 코드 수정없이 외부의 설정값만 바꿔주면 되기에
+Environment 객체를 사용하는 것이 유용하다. 
+
+-Context 스프링 컨테이너 생성
+
+ctx.getEnvironmenet()	컨테이너에서 Environment객체 가져오기.
+
+-Environment: config 설정값들을 보관 및 관리. 즉, 이 객체 안에 바로 정보가 들어있는 것이 아니라,
+이 안에 PropertySources들을 보관함.
+
+env.getPropertySources()	ps들을 모두 구함. 원하는 정보를 검색하기 위해 스캔하는 과정.
+
+-PropertySources: 직접적인 정보들이 들어있음. 
+
+env.getProperty()		필요한 정보를 찾으면 get함.
+추가: propertySources.addLast()
+
+Main.clss
+ConfigurableApplicationContext ctx = new GenericXmlApplicaionContext();	스프링컨테이너 생성
+ConfigurableEnvironment env = ctx.getEnvironment();			ctx에서 env객체 불러와서 env 생성
+MutablePropertySources propertySources = env.getPropertySources(); 	env에서 ps 불러오기.
+
+AdminConnection.java
+public class AdminConnection implements EnvironmentAware, InitializingBean, DisposableBean{
+				//객체생성 이전에 실행됨
+	private Environment env;
+	private String adminId;
+	private String adminPw;
+
+	@Override
+	public void setEnvironment(Environment env) {		//main에서 설정한 env값을 들고와서 설정
+		setEnv(env);
+	}
+
+	public void setEnv(Environment env) {
+		this.env = env;
+	}
+
+.
+.
+.
+
+	@Override
+	public void afterPropertiesSet(){			//env에서 property값 받아와서 이 필드의 set설정
+		setAdminId(env.getProperty("admin.id"));
+		setAdminPw(env.getProperty("admin.pw"));
+	}
+.
+.
+.
+
+}
+
+
+
+3.Environment객체를 사용하지 않고 프로퍼티 파일을 직접 이용하여 스프링 빈을 설정하는 방법은?
+1) 스프링 설정 xml파일에 프로퍼티 파일을 명시
+applicationCTX.xml
+
+외부 파일을 가져올 수 있는 키워드↓
+이용하려면 Namespaces 탭을 이용해서 파일 위에 주소 찍어야 함.
+<context:property-placeholder location="classpath:admin.properties, classpath:sub_admin.properties" />
+
+<bean id="adminConnection" class="com.javalec.ex.AdminConnection">
+	<property name="adminId">
+		<value>${admin.id}</value>		외부파일로부터 정보 가져옴
+	</property>				이 값을 자바파일에 setter함수로 집어넣음.
+.
+.
+.
+
+
+2) 스프링 설정 java파일에 프로퍼티 파일을 명시
+ApplicationConfig.java
+
+@Configuration
+public class ApplicationConfig{
+	@Value("${admin.id}")		//value 어노테이션으로 property에 있는 값을 
+	private String adminId;		//AdminConneciton.java에 할당함.
+.
+.
+.
+
+@Bean
+public static PropertySourcesPlaceholderConfigurer Properties(){		//statc: 클래스 생성 전 실행
+	PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
+	Resources[] locations = new Resources[2];
+	locations[0] = new ClassPathResrouce("admin.properties");
+	.
+	.
+	.
+	configurer.setLocations(locations);
+	return confiturer;			//외부 설정값의 위치가 들어있음
+}
+
+@Bean
+public AdminConnection adminConfig(){
+	AdminConnection adminConnection = new AdminConnection();
+	adminConnection.setAdminId(adminId);
+	.
+	.
+	.
+	return adminConnection;
+}
+
+}
+
+
+
+[프로파일(profiel) 속성을 이용한 설정] → 실무에서 자주 쓰임
+동일한 스프링 빈을 여러 개 만들어 놓고 상황(환경)에 따라서 적절한 스프링 빈을 사용할 수 있다.
+ex) 운영체제별 빈을 설정할 때
+
+1) xml 설정 파일
+Main.class
+.
+.
+.
+//config에 여기서 어떤 스프링 빈을 사용할 지 입력 (dev / run)
+.
+.
+.
+GenericXmlApplicationContext ctx = new GenericXmlApplicationContext();
+ctx.getEnvironment().setActiveProfiles(config);		//config에 입력받은 빈을 삽입하여 사용함.
+ctx.load("applicationCTX_dev.xml", "applicationCTX_run.xml");
+.
+.
+.
+
+
+2) java 설정 파일
+.
+.
+.
+//config에 여기서 어떤 스프링 빈을 사용할 지 입력 (dev / run)
+.
+.
+.
+AnnotacionConfigApplicationContext ctx = new AnnotacionConfigApplicationContext();
+ctx.getEnvironment().setActiveProfiles(config);		//config에 입력받은 빈을 삽입하여 사용함.
+ctx.register(ApplicationConfigDev.class, ApplicationConfigRun.class);
+ctx.refresh();
+.
+.
+.
+
+
+
+4.아래와 같이 원의 넓이를 구하는 프로그램을 자바스크립트로 작성하시오.
+입력은 prompt 로 받으시오.
+
+원의 반지름을 입력하세요 : 10
+원의 넓이는 314 입니다.
+계속 하시겠습니까 yes면 y No이면 n: y
+원의 반지름을 입력하세요 : 10
+원의 넓이는 314 입니다.
+계속 하시겠습니까 yes면 y No이면 n: n
+프로그램을 종료 합니다.
+
+5. 아래의 내장 함수에 대하여 설명하시오.
+-eval() 문자열을 코드로 이용
+var varEval = "console.log('eval함수!')";
+eval(varEval);
+
+varEval = "document.write('<p>eval함수</p>');";
+eval(varEval);
+
+-setTimeout() 어떤 시간에 해야 하는 일, 시간 -> 이 두 가지 매개변수를 가짐. 1회만 실행됨.
+var timeoutId = setTimeout(function() {alert("3초 후 한 번 실행됩니다.");}, 3000);
+clearTimeout(timeoutId);
+
+-setInterval() 설정한 시간마다 실행됨
+var intervalId = setInterval(function() {console.log("2초 마다 계속 실행됩니다.");}, 2000);
+clearInterval(intervalId);
+

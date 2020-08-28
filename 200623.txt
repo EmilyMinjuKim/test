@@ -1,0 +1,83 @@
+1.DB접속을 위한 3개의 객체와 해당 객체를 얻는 방법을 설명하시오.
+Connection connection;
+Statement statement;
+ResultSet resultSet;
+
+2.Statement 객체의 executeUpdate 와 executeQuery() 의 차이는?
+
+- SQL문이 무엇을 만드는지에 따라 사용하는 메소드가 나뉜다.
+  ① executeQuery 메소드
+     : 하나의 ResultSet을 만드는 SQL문에서 사용(executeQyery 메소드는 ResultSet 객체를 리턴한다.)
+     : 주로 SELECT문을 이용하는 조회에서 사용됨.
+
+  ② executeUpdate 메소드
+     : INSERT, UPDATE, DELETE 등 (DML), CREATE, DROP 등(DDL)문들을 실행하는데 사용
+       └ DML을 사용할 경우 리턴값 : 작용한 열의 개수(갱신 카운트로 간주되는)를 나타내는 정수
+       └ DDL을 사용할 경우 리턴값 : 0을 리턴(DML을 실행 후 아무런 영향을 주지 않은 경우에도 '0'을 리턴한다.)
+
+3.JDBC란?
+JDBC(Java Database Connectivity)는 자바에서 데이터베이스에 접속할 수 있도록 하는 자바 API이다. 
+JDBC는 데이터베이스에서 자료를 쿼리하거나 업데이트하는 방법을 제공한다.
+
+4.emp 의 모든 정보를 가져오는 웹프로그래밍을 하시오.
+조건 1) 테이블로 가운데 정렬 시킬것.
+
+
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.Connection"%>
+
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="EUC-KR">
+	<title>Insert title here</title>
+	</head>
+	<body>
+		<%!
+			Connection connection;
+			Statement statement;
+			ResultSet resultSet;
+			
+			String driver = "oracle.jdbc.driver.OracleDriver";
+			String url = "jdbc:oracle:thin:@localhost:1521:xe";
+			String uid = "scott";
+			String upw = "tiger";
+			String query = "select * from emp";
+		%>
+		
+		<%
+			Class.forName(driver);	
+			connection = DriverManager.getConnection(url, uid, upw);
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(query);
+		%>
+			
+		<table border="1">
+			<tr bgcolor="yellow">
+				<th>empno</th><th>ename</th><th>job</th><th>hiredate</th><th>sal</th><th>comm</th><th>deptno</th>
+			</tr>
+		<%
+			while(resultSet.next()){
+				String empno = resultSet.getString("empno");
+				String ename = resultSet.getString("ename");
+				String job = resultSet.getString("job");
+				String hiredate = resultSet.getString("hiredate");
+				String sal = resultSet.getString("sal");
+				String comm = resultSet.getString("comm");
+				String deptno = resultSet.getString("deptno");	
+		%>
+			<tr>
+				<td><%=empno %></td><td><%=ename %></td><td><%=job %></td><td><%=hiredate %></td>
+				<td><%=sal %></td><td><%=comm %></td><td><%=deptno %></td>
+			</tr>
+		<%		
+			}
+		%>
+		</table>
+		
+	</body>
+</html>

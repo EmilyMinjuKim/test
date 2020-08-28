@@ -1,0 +1,267 @@
+ApplicationConfig장점
+디버깅이 된다. 즉, 유지보수에 유리함.
+
+2.scope 에서 singeton 과 prototye 의 차이에 대하여 설명하시오.
+
+singeton: 하나의 bean 정의에 대해 Spring IoC Container 내에 단 하나의 객체만 존재.
+prototye: 하나의 bean 정의에 대해 다수의 객체가 존재할 수 있음.
+scope를 디폴트 할때는 singeton
+
+-원, 삼각형, 사각형의 객체를 만든후, 반지름 5, 가로 세로 5 인 각각의 넓이를 구하는 프로그램을 작성하시오.
+조건) 
+- Ioc 컨테이너를 통하여 객체를 생성하되 xml이 아닌 config 객체를 이용하여 생성 할것.
+-각각의 객체를 아래의 인터페이스로 강제 시킬것.
+- interface IShape{
+	double getArea();
+}
+
+<interface>
+
+package com.javalec.ex;
+
+public interface IShape {
+	
+	double getArea();
+}
+
+
+<Circle클래스>
+
+package com.javalec.ex;
+
+public class Circle implements IShape{
+
+	private double radius;
+	
+	@Override
+	public double getArea() {
+		
+		return radius * radius * Math.PI;
+	}
+
+	public Circle() {}
+	
+	public Circle(double radius) {
+		super();
+		this.radius = radius;
+	}
+
+
+
+	public double getRadius() {
+		return radius;
+	}
+
+	public void setRadius(double radius) {
+		this.radius = radius;
+	}
+
+}
+
+<Rectangle클래스>
+
+package com.javalec.ex;
+
+public class Rectangle implements IShape{
+	
+	private double width;
+	private double height;
+	
+	@Override
+	public double getArea() {
+		
+		return width * height;
+	}
+
+	public Rectangle() {}
+	
+	
+	public Rectangle(double width, double height) {
+		super();
+		this.width = width;
+		this.height = height;
+	}
+
+
+
+
+	public double getWidth() {
+		return width;
+	}
+
+	public void setWidth(double width) {
+		this.width = width;
+	}
+
+	public double getHeight() {
+		return height;
+	}
+
+	public void setHeight(double height) {
+		this.height = height;
+	}
+}
+
+<Triangle클래스>
+
+package com.javalec.ex;
+
+public class Triangle implements IShape{
+	
+	private double width;
+	private double height;
+	
+	@Override
+	public double getArea() {
+		
+		return width * height * 0.5;
+	}
+
+	public Triangle() {}
+
+	
+	public Triangle(double width, double height) {
+		super();
+		this.width = width;
+		this.height = height;
+	}
+
+
+	public double getWidth() {
+		return width;
+	}
+
+	public void setWidth(double width) {
+		this.width = width;
+	}
+
+	public double getHeight() {
+		return height;
+	}
+
+	public void setHeight(double height) {
+		this.height = height;
+	}
+}
+
+
+<Bean생성 클래스>
+
+package com.javalec.ex;
+
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.context.annotation.Bean;
+
+@Configurable
+public class Area {
+
+	@Bean
+	public Circle circleArea() {
+		Circle circle = new Circle(5);
+		return circle;
+	}
+	
+	@Bean
+	public Rectangle rectangleArea() {
+		Rectangle rectangle = new Rectangle(5,5);
+		return rectangle;
+	}
+	
+	@Bean
+	public Triangle triangleArea() {
+		Triangle triangle = new Triangle(5,5);
+		return triangle;
+	}
+	
+}
+
+
+<Main클래스>
+
+package com.javalec.ex;
+
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
+
+public class MainClass {
+
+	public static void main(String[] args) {
+		
+		AbstractApplicationContext ctx = new AnnotationConfigApplicationContext(Area.class);
+			
+		Circle circleArea = ctx.getBean("circleArea", Circle.class);
+		System.out.println(circleArea.getArea());
+		
+		Rectangle rectangleArea = ctx.getBean("rectangleArea", Rectangle.class);
+		System.out.println(rectangleArea.getArea());
+		
+		Triangle triangleArea = ctx.getBean("triangleArea", Triangle.class);
+		System.out.println(triangleArea.getArea());
+	}
+
+}
+
+
+
+4. javascript 에서 함수의 2가지 종류에 대하여 만드는 법과 호출하는 방법은?
+1) 명시(선언)적 함수: 함수 이름 있음
+
+function 함수이름(){
+	실행문...
+}
+
+**함수호출: 함수이름();
+
+2) 익명 함수
+var 변수이름 = function (){
+	실행문...
+}
+
+**함수호출: 변수이름();
+
+3) 명시적함수와 익명함수의 실행순서
+명시적함수의 경우에는 언제 어디서든지 해당 함수를 사용할 수 있지만,
+익명 함수는 함수 선언 이후에서만 사용이 가능하다
+
+명시적 > 익명
+명시적은 html문서가 실행될 때 가장 먼저 실행됨.
+익명은 html문서가 실행도리 때 위에서부터 순차적으로 실행됨.
+
+4) 매개변수와 리턴(반환)값
+
+fuction funName(x, y, z) {		//매개변수
+	var result = x * y + z;	//지역변수
+	return result;		//리턴값
+}
+
+var varResult = 0;			//전역변수
+
+var Result = funName(2, 3, 4);
+결과값: 10
+
+var Result = funName(2, 3, 4, 5);
+결과값: 10
+
+var Result = funName(2, 3);
+여기서 z는 undefined
+결과값: NaN(Not a Number)
+
+5)arguments: 매개변수를 데이터로 하는 배열 객체
+function 함수이름(매개변수1, 매개변수2, ..., 매개변수n){
+	arguments = [매개변수1, 매개변수2, ..., 매개변수n]
+}
+
+함수 안에는 기본적으로 arguments라는 객체가 존재함.
+
+ex)
+function funName(){
+	return arguments;
+}
+
+var varArr = funName(1, 2, 3, 4, 5, 6, 7);
+
+for(var i in varArr){
+	console.log(var[i]);
+}
+
+**콘솔창에 1~7까지 차례로 찍힘
