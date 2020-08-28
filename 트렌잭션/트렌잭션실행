@@ -1,0 +1,17 @@
+트랜잭션의 개념: 어떤 일련의 작업의 의미. 한 번에 이루어져야 하는 작업 단위
+모두 에러 없이 끝나야 하며, 만약 중간에 에러가 발생한다면, 에러 발생 이전 시점까지 작업되었던 내용은 모두 원상 복구 되어야 함.
+500(코딩/ 내부 에러), 404(page null), 403(권한) 등의 에러 처리가 아니면, 에러 발생시 DB로 하여금 원상 복구하도록 DB에 요청(에러처리가 아님/ rollback요청).
+rollback의 예: 계좌이체(입+출금)
+
+
+
+
+Spring Framework에서 제공하는 Transaction 선언
+
+1) Spring context 설정 파일에서 Transaction 선언
+2) Spring Transaction Annotation을 사용한 Transaction
+3) Spring API를 사용하여 프로그램 소스 상에 Transaction 구현
+
+1) & 2) => Spring AOP를 사용. 실무에서는 2)를 가장 많이 사용함.
+
+트렌잭션 우선 순위: 메소드 > 클래스 > 인터페이스 메소드 > 인터페이스
