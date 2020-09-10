@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bit.it.into.mapper.BondMapper">
+
+	<select id="getList" resultType="bondDto">
+        SELECT * FROM BOND
+    </select>
+	
+	<select id="insertBond">
+        INSERT INTO bond VALUES (#{BOND_SYMBOLS}, '1234', #{TOTAL_INTEREST}, #{BOND_COMPANY}, #{BOND_PRICE}, 
+						#{BOND_DATE}, #{COUPON_INTEREST_RATE}, #{DISCOUNT_RATE}, 
+						#{GROSS_PRICE}, #{MATURITY_DATE}, #{GRADE})
+    </select>
+
+</mapper>
