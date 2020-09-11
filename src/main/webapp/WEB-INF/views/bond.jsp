@@ -351,13 +351,15 @@
             </div>
             <div class="card-body">
               <div class="table-responsive">
-              	<button type="button" class="btn btn-outline btn-primary pull-right" id="selectAll">전체선택</button>
-              	<button type="button" class="btn btn-outline btn-primary pull-right" id="add" name="addRow">추가</button>
-              	<button type="button" class="btn btn-outline btn-primary pull-right" id="modify">수정</button>
-              	<button type="button" class="btn btn-outline btn-primary pull-right" id="delete" name="delRow">삭제</button>
-              	<button type="button" class="btn btn-outline btn-primary pull-right" id="exel">엑셀파일로 다운</button>
+              	<button type="button" class="btn btn-outline btn-primary pull-right" name="selectAll">전체선택</button>
+              	<button type="button" class="btn btn-outline btn-primary pull-right" name="addRow">추가</button>
+              	<button type="button" class="btn btn-outline btn-primary pull-right" name="modify">수정</button>
+              	<button type="button" class="btn btn-outline btn-primary pull-right" name="delRow">삭제</button>
+              	<button type="button" class="btn btn-outline btn-primary pull-right" name="exel">엑셀파일로 다운</button>
                 
+                <form action="insert" method="post">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                	
                   <thead>
                     <tr>
                    	 <th>선택</th>
@@ -374,6 +376,7 @@
                     </tr>
                   </thead>
               
+
                   <tbody id="bond_tbody">
                   <c:forEach var = "dto" items= "${list}">
                     <tr>
@@ -389,34 +392,39 @@
                       <td>${dto.maturity_date}</td>
                       <td>${dto.grade}</td>
                     </tr>
-                    </c:forEach>
-  
+                   </c:forEach>
                   </tbody>
+                
                 </table>
+                </form>
                 
               </div>
             </div>
           </div>
-          
+
+
           <!-- table script -->
           <script type="text/javascript">
-		    //추가 버튼
+		    
+          //추가 버튼
 		    $(document).on("click","button[name=addRow]",function(){
 		        
-		        var addTableRow =     '<tr>'+
+ 		        var addTableRow =
+		        	'<tr>'+
 		            '    <td><input type="checkbox" name="checkbox" ></td>'+
-		            '    <td><input type="text" class="form-control" id="bond_symbols" placeholder="종목"></td>'+
-		            '    <td><input type="text" class="form-control" id="total_interest" placeholder="세후보유기간이자"></td>'+
-		            '    <td><input type="text" class="form-control" id="bond_company" placeholder="증권사"></td>'+
-		            '    <td><input type="text" class="form-control" id="bond_price" placeholder="매수금액"></td>'+
-		            '    <td><input type="text" class="form-control" id="bond_date" placeholder="매수일자"></td>'+
-		            '    <td><input type="text" class="form-control" id="coupon_interest_rate" placeholder="발행이자율"></td>'+
-		            '    <td><input type="text" class="form-control" id="discount_rate" placeholder="할인발행율"></td>'+
-		            '    <td><input type="text" class="form-control" id="gross_price" placeholder="총상환금액"></td>'+
-		            '    <td><input type="text" class="form-control" id="maturity_date" placeholder="만기일"></td>'+
-		            '    <td><input type="text" class="form-control" id="grade" placeholder="신용등급">'+
-		            '  	 <input type="button" class="btn btn-outline btn-primary" name="insertAjax" value="+" onClick="insertAjax();" /></td></tr>';
-		            
+		            '    <td><input type="text" name="bond_symbols" placeholder="종목"></td>'+
+		            '    <td><input type="text" name="total_interest" placeholder="세후보유기간이자"></td>'+
+		            '    <td><input type="text"  name="bond_company" placeholder="증권사"></td>'+
+		            '    <td><input type="text"  name="bond_price" placeholder="매수금액"></td>'+
+		            '    <td><input type="text"  name="bond_date" placeholder="매수일자"></td>'+
+		            '    <td><input type="text"  name="coupon_interest_rate" placeholder="발행이자율"></td>'+
+		            '    <td><input type="text"  name="discount_rate" placeholder="할인발행율"></td>'+
+		            '    <td><input type="text"  name="gross_price" placeholder="총상환금액"></td>'+
+		            '    <td><input type="text"  name="maturity_date" placeholder="만기일"></td>'+
+		            '    <td><input type="text"  name="grade" placeholder="신용등급">'+
+		            '  	 <input type="submit" class="btn btn-outline btn-primary" value="+"></td>'+
+		            '</tr>';  
+
 		            $("#bond_tbody").append(addTableRow);
 		        
 		    });
@@ -432,7 +440,7 @@
  	        });
 		    
 		    //추가 저장 버튼 
-/*  		    function createRow(){
+/*   		    function createRow(){
 		    	var bond_symbols = $("#bond_symbols").val();
 				var total_interest = $("#total_interest").val();
 				var bond_company = $("#bond_company").val();
@@ -443,7 +451,8 @@
 				var gross_price = $("#gross_price").val();
 				var maturity_date = $("#maturity_date").val();
 				var grade = $("#grade").val();
-	            var markup = "<tr><td><input type='checkbox' name='checkbox'></td>" +
+	            var markup =
+	            	"<tr><td><input type='checkbox' name='checkbox'></td>" +
 		       		"		<td>" + bond_symbols + "</td>" +
 		       		"		<td>" + total_interest + "</td>" +
 		       		"		<td>" + bond_company + "</td>" +
@@ -456,6 +465,7 @@
 		       		"		<td>" + grade + "</td></tr>";
 		    	$("#bond_tbody").prepend(markup);
 		    	
+
 		    	$("#bond_symbols").val('');
 				$("#total_interest").val('');
 				$("#bond_company").val('');
@@ -466,11 +476,10 @@
 				$("#gross_price").val('');
 				$("#maturity_date").val('');
 				$("#grade").val('');
-		    	
 		    } */
+
 		    
-		    
-		    //db에 저장 
+			/*
 			function insertAjax(){
 		    	var url="${pageContext.request.contextPath}/restful/insert.json";
 		    	
@@ -507,6 +516,7 @@
 		    	
 		   	 });
 		    }
+		    */
 		    
 		</script>
 

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import bit.it.into.dto.BondDto;
 import bit.it.into.service.BondService;
@@ -27,13 +26,20 @@ public class BondController {
 	@Inject
 	BondService bondService;
 	
-	@RequestMapping(value="/list", method = RequestMethod.GET)
+	@RequestMapping("/list")
 	public String list(Model model) throws Exception {	
-		logger.info("list");
+		log.info("list");
 		List<BondDto> getList = bondService.getList();
 		model.addAttribute("list", getList);
 		return "bond";
 	}
 
-	
+	@RequestMapping(value="/insert", method= {RequestMethod.POST})
+	public String insert(BondDto bondDto) throws Exception {
+		log.info("insert()");
+		
+		bondService.insertBond(bondDto);
+		
+		return "redirect:bond";
+	}
 }

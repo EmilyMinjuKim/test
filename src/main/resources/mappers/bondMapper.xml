@@ -4,14 +4,32 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="bit.it.into.mapper.BondMapper">
 
+	<!--  
+	<resultMap id="dto" type="bondDto">
+		<id property="member_num" column="member_num" />
+		<result property="TOTAL_INTEREST" column="TOTAL_INTEREST" jdbcType="VARCHAR" />
+		<result property="BOND_COMPANY" column="BOND_COMPANY" jdbcType="NUMERIC" />
+		<result property="BOND_PRICE" column="BOND_PRICE" jdbcType="NUMERIC" />
+		<result property="BOND_DATE" column="BOND_DATE" jdbcType="DATE" />
+		<result property="COUPON_INTEREST_RATE" column="COUPON_INTEREST_RATE", jdbcType="NUMERIC" />
+		<result property="DISCOUNT_RATE" column="DISCOUNT_RATE" jdbcType="NUMERIC" />
+		<result property="GROSS_PRICE" column="GROSS_PRICE" jdbcType="NUMERIC" />
+		<result property="MATURITY_DATE" column="MATURITY_DATE" jdbcType="DATE" />
+		<result property="GRADE" column="GRADE" jdbcType="VARCHAR" />
+	</resultMap>
+	-->
+	
 	<select id="getList" resultType="bondDto">
         SELECT * FROM BOND
     </select>
 	
-	<select id="insertBond">
-        INSERT INTO bond VALUES (#{BOND_SYMBOLS}, '1234', #{TOTAL_INTEREST}, #{BOND_COMPANY}, #{BOND_PRICE}, 
-						#{BOND_DATE}, #{COUPON_INTEREST_RATE}, #{DISCOUNT_RATE}, 
-						#{GROSS_PRICE}, #{MATURITY_DATE}, #{GRADE})
+	<select id="insertBond" >
+        INSERT INTO BOND VALUES (#{BOND_SYMBOLS, jdbcType=VARCHAR}, '1234', 
+        				#{TOTAL_INTEREST, jdbcType=NUMERIC}, #{BOND_COMPANY, jdbcType=VARCHAR}, 
+        				#{BOND_PRICE, jdbcType=NUMERIC}, #{BOND_DATE, jdbcType=DATE}, 
+        				#{COUPON_INTEREST_RATE, jdbcType=NUMERIC}, #{DISCOUNT_RATE, jdbcType=NUMERIC}, 
+        				#{GROSS_PRICE, jdbcType=NUMERIC}, #{MATURITY_DATE, jdbcType=DATE}, 
+        				#{GRADE, jdbcType=VARCHAR})
     </select>
 
 </mapper>
